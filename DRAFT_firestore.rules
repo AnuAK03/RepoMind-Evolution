@@ -1,0 +1,256 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Global default-deny safety net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() >= 1 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isSignedIn() {
+      return request.auth != null && request.auth.token.email_verified == true;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function hasParentWorkspace(userId) {
+      return exists(/databases/$(database)/documents/users/$(userId)) &&
+        get(/databases/$(database)/documents/users/$(userId)).data.ownerId == request.auth.uid;
+    }
+
+    function isValidUserWorkspace(data) {
+      return data.keys().hasAll(['ownerId', 'preferredTheme', 'defaultView', 'createdAt', 'updatedAt']) &&
+        data.keys().hasOnly(['ownerId', 'preferredTheme', 'defaultView', 'createdAt', 'updatedAt']) &&
+        isValidId(data.ownerId) &&
+        data.ownerId == request.auth.uid &&
+        data.preferredTheme is string &&
+        data.preferredTheme.size() <= 10 &&
+        data.preferredTheme in ['dark', 'light'] &&
+        data.defaultView is string &&
+        data.defaultView.size() <= 20 &&
+        data.defaultView in ['dashboard', 'hub', 'health', 'risk'] &&
+        data.createdAt is timestamp &&
+        data.updatedAt is timestamp;
+    }
+
+    function isValidPrivateProfile(data) {
+      return data.keys().hasAll(['ownerId', 'email', 'displayName', 'photoURL', 'lastLoginAt', 'createdAt', 'updatedAt']) &&
+        data.keys().hasOnly(['ownerId', 'email', 'displayName', 'photoURL', 'lastLoginAt', 'createdAt', 'updatedAt']) &&
+        isValidId(data.ownerId) &&
+        data.ownerId == request.auth.uid &&
+        data.email is string &&
+        data.email.size() <= 254 &&
+        data.displayName is string &&
+        data.displayName.size() <= 120 &&
+        data.photoURL is string &&
+        data.photoURL.size() <= 500 &&
+        data.lastLoginAt is timestamp &&
+        data.createdAt is timestamp &&
+        data.updatedAt is timestamp;
+    }
+
+    function isValidStarredRepo(data) {
+      return data.keys().hasAll(['ownerId', 'repoId', 'name', 'source', 'sourceRef', 'createdAt', 'updatedAt']) &&
+        data.keys().hasOnly(['ownerId', 'repoId', 'name', 'source', 'sourceRef', 'createdAt', 'updatedAt']) &&
+        isValidId(data.ownerId) &&
+        data.ownerId == request.auth.uid &&
+        isValidId(data.repoId) &&
+        data.name is string &&
+        data.name.size() >= 1 &&
+        data.name.size() <= 120 &&
+        data.source is string &&
+        data.source.size() <= 16 &&
+        data.source in ['sample', 'git', 'zip'] &&
+        data.sourceRef is string &&
+        data.sourceRef.size() >= 1 &&
+        data.sourceRef.size() <= 300 &&
+        data.createdAt is timestamp &&
+        data.updatedAt is timestamp;
+    }
+
+    function isValidSavedSnapshot(data) {
+      return data.keys().hasAll([
+          'ownerId', 'repoId', 'repoName', 'source', 'sourceRef',
+          'healthScore', 'grade', 'avgRisk', 'highRiskCount',
+          'totalFiles', 'totalLines', 'createdAt', 'updatedAt'
+        ]) &&
+        data.keys().hasOnly([
+          'ownerId', 'repoId', 'repoName', 'source', 'sourceRef',
+          'healthScore', 'grade', 'avgRisk', 'highRiskCount',
+          'totalFiles', 'totalLines', 'createdAt', 'updatedAt'
+        ]) &&
+        isValidId(data.ownerId) &&
+        data.ownerId == request.auth.uid &&
+        isValidId(data.repoId) &&
+        data.repoName is string &&
+        data.repoName.size() >= 1 &&
+        data.repoName.size() <= 120 &&
+        data.source is string &&
+        data.source.size() <= 16 &&
+        data.source in ['sample', 'git', 'zip'] &&
+        data.sourceRef is string &&
+        data.sourceRef.size() >= 1 &&
+        data.sourceRef.size() <= 300 &&
+        data.healthScore is number &&
+        data.healthScore >= 0 &&
+        data.healthScore <= 100 &&
+        data.grade is string &&
+        data.grade.size() <= 2 &&
+        data.grade in ['A', 'B', 'C', 'D', 'F'] &&
+        data.avgRisk is number &&
+        data.avgRisk >= 0 &&
+        data.avgRisk <= 100 &&
+        data.highRiskCount is number &&
+        data.highRiskCount >= 0 &&
+        data.totalFiles is number &&
+        data.totalFiles >= 0 &&
+        data.totalLines is number &&
+        data.totalLines >= 0 &&
+        data.createdAt is timestamp &&
+        data.updatedAt is timestamp;
+    }
+
+    function isValidUserNote(data) {
+      return data.keys().hasAll(['ownerId', 'repoName', 'title', 'status', 'priority', 'createdAt', 'updatedAt']) &&
+        data.keys().hasOnly(['ownerId', 'repoName', 'title', 'status', 'priority', 'createdAt', 'updatedAt']) &&
+        isValidId(data.ownerId) &&
+        data.ownerId == request.auth.uid &&
+        data.repoName is string &&
+        data.repoName.size() >= 1 &&
+        data.repoName.size() <= 120 &&
+        data.title is string &&
+        data.title.size() >= 1 &&
+        data.title.size() <= 160 &&
+        data.status is string &&
+        data.status.size() <= 10 &&
+        data.status in ['open', 'done'] &&
+        data.priority is string &&
+        data.priority.size() <= 10 &&
+        data.priority in ['high', 'medium', 'low'] &&
+        data.createdAt is timestamp &&
+        data.updatedAt is timestamp;
+    }
+
+    match /users/{userId} {
+      allow get: if isOwner(userId) && isValidId(userId);
+      allow list: if false;
+      allow create: if isOwner(userId) &&
+        isValidId(userId) &&
+        isValidUserWorkspace(incoming()) &&
+        incoming().createdAt == request.time &&
+        incoming().updatedAt == request.time;
+      allow update: if isOwner(userId) &&
+        isValidId(userId) &&
+        isValidUserWorkspace(incoming()) &&
+        incoming().ownerId == existing().ownerId &&
+        incoming().createdAt == existing().createdAt &&
+        incoming().updatedAt == request.time &&
+        (
+          incoming().diff(existing()).affectedKeys().hasOnly(['preferredTheme', 'updatedAt']) ||
+          incoming().diff(existing()).affectedKeys().hasOnly(['defaultView', 'updatedAt']) ||
+          incoming().diff(existing()).affectedKeys().hasOnly(['preferredTheme', 'defaultView', 'updatedAt'])
+        );
+      allow delete: if isOwner(userId) && isValidId(userId);
+
+      match /private/{docId} {
+        allow get: if isOwner(userId) && isValidId(userId) && docId == 'profile';
+        allow list: if false;
+        allow create: if isOwner(userId) &&
+          isValidId(userId) &&
+          docId == 'profile' &&
+          isValidPrivateProfile(incoming()) &&
+          incoming().lastLoginAt == request.time &&
+          incoming().createdAt == request.time &&
+          incoming().updatedAt == request.time &&
+          hasParentWorkspace(userId);
+        allow update: if isOwner(userId) &&
+          isValidId(userId) &&
+          docId == 'profile' &&
+          isValidPrivateProfile(incoming()) &&
+          incoming().ownerId == existing().ownerId &&
+          incoming().createdAt == existing().createdAt &&
+          incoming().updatedAt == request.time &&
+          incoming().lastLoginAt == request.time &&
+          incoming().diff(existing()).affectedKeys().hasOnly(['email', 'displayName', 'photoURL', 'lastLoginAt', 'updatedAt']) &&
+          hasParentWorkspace(userId);
+        allow delete: if isOwner(userId) && isValidId(userId) && docId == 'profile';
+      }
+
+      match /starredRepos/{starId} {
+        allow get: if isOwner(userId) && isValidId(userId) && isValidId(starId);
+        allow list: if isOwner(userId) && resource.data.ownerId == request.auth.uid;
+        allow create: if isOwner(userId) &&
+          isValidId(userId) &&
+          isValidId(starId) &&
+          isValidStarredRepo(incoming()) &&
+          incoming().createdAt == request.time &&
+          incoming().updatedAt == request.time &&
+          hasParentWorkspace(userId);
+        allow update: if isOwner(userId) &&
+          isValidId(userId) &&
+          isValidId(starId) &&
+          isValidStarredRepo(incoming()) &&
+          incoming().ownerId == existing().ownerId &&
+          incoming().createdAt == existing().createdAt &&
+          incoming().updatedAt == request.time &&
+          incoming().diff(existing()).affectedKeys().hasOnly(['name', 'source', 'sourceRef', 'updatedAt']) &&
+          hasParentWorkspace(userId);
+        allow delete: if isOwner(userId) && isValidId(userId) && isValidId(starId);
+      }
+
+      match /snapshots/{snapshotId} {
+        allow get: if isOwner(userId) && isValidId(userId) && isValidId(snapshotId);
+        allow list: if isOwner(userId) && resource.data.ownerId == request.auth.uid;
+        allow create: if isOwner(userId) &&
+          isValidId(userId) &&
+          isValidId(snapshotId) &&
+          isValidSavedSnapshot(incoming()) &&
+          incoming().createdAt == request.time &&
+          incoming().updatedAt == request.time &&
+          hasParentWorkspace(userId);
+        allow update: if false;
+        allow delete: if isOwner(userId) && isValidId(userId) && isValidId(snapshotId);
+      }
+
+      match /notes/{noteId} {
+        allow get: if isOwner(userId) && isValidId(userId) && isValidId(noteId);
+        allow list: if isOwner(userId) && resource.data.ownerId == request.auth.uid;
+        allow create: if isOwner(userId) &&
+          isValidId(userId) &&
+          isValidId(noteId) &&
+          isValidUserNote(incoming()) &&
+          incoming().createdAt == request.time &&
+          incoming().updatedAt == request.time &&
+          hasParentWorkspace(userId);
+        allow update: if isOwner(userId) &&
+          isValidId(userId) &&
+          isValidId(noteId) &&
+          isValidUserNote(incoming()) &&
+          incoming().ownerId == existing().ownerId &&
+          incoming().createdAt == existing().createdAt &&
+          incoming().updatedAt == request.time &&
+          (
+            incoming().diff(existing()).affectedKeys().hasOnly(['status', 'updatedAt']) ||
+            incoming().diff(existing()).affectedKeys().hasOnly(['title', 'priority', 'updatedAt']) ||
+            incoming().diff(existing()).affectedKeys().hasOnly(['title', 'status', 'priority', 'updatedAt'])
+          ) &&
+          hasParentWorkspace(userId);
+        allow delete: if isOwner(userId) && isValidId(userId) && isValidId(noteId);
+      }
+    }
+  }
+}

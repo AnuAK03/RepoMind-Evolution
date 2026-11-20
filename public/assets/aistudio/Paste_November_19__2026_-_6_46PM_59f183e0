@@ -1,0 +1,1408 @@
+Before continuing with installation or coding, it is a good idea to establish one master development plan. Your project should not simply become RepoMind with a few extra features. It should evolve into a substantially more capable **software repository intelligence platform**, with a clear technical contribution, working modules, measurable results, and a strong academic presentation.
+
+I recommend keeping **12 modules as the target**, while defining **8 fully implemented modules as the minimum acceptable completion target**. This gives you a realistic fallback without sacrificing the ambition of the project.
+
+Below is a reusable master prompt. You can paste it into a new ChatGPT conversation or use it in your existing development conversation. It is designed to make the AI act as your project architect, senior developer, debugging partner, research guide, and implementation mentor throughout development.
+
+# **Your project: RepoMind Evolution**
+
+[I built a code intelligence engine because nothing else worked for my cross-repo setup - DEV Community](https://images.openai.com/static-rsc-4/O9OcrPdYTyTrGVBocnRCju6JoYnGXLI0Z9fh_ky8SkKroaOAcJeW_GBgo1j_fLqOhMgQEyW0MVA0EWrps6vIiscEdmhUHU42Z5CCRrRLYcvxB5yjRuYsVrzhsd9ZbcCvcPd5sidTq5bQ0-uCDnLn21dqYLxJkiCtWfhIyPFLq24?purpose=inline)
+
+[dev.to](https://dev.to/zzet/i-built-a-code-intelligence-engine-because-nothing-else-worked-for-my-cross-repo-setup-2bc3?utm_source=chatgpt.com)
+
+# **RepoMind Evolution**
+
+**An AI-Powered Software Repository Evolution, Change Impact and Risk Intelligence Platform**
+
+12-module target
+
+8-module minimum
+
+Research-oriented
+
+Full-stack application
+
+## **1. What exactly is this project?**
+
+RepoMind Evolution is a platform that helps software developers, maintainers, reviewers, and project teams understand a software repository beyond simply reading its source code.
+
+A conventional code-analysis tool might tell you:
+
+- What files exist.
+- Which functions and classes are present.
+- Which files import other files.
+- Whether there are circular dependencies.
+- What a particular piece of code does.
+
+Your evolved system should answer much more important engineering questions:
+
+- What changed between two versions of a project?
+- Which other files, functions, or modules might be affected by a change?
+- Which changes are potentially risky?
+- Why is a particular file considered risky?
+- Which tests should a developer run after changing a particular component?
+- Which parts of the system have accumulated technical debt?
+- How has the architecture evolved over time?
+- Which areas of the repository have concentrated contribution activity?
+- What is the overall health of the software project?
+
+**The central idea:** Instead of merely analysing the current state of source code, RepoMind Evolution analyses the structure, history, dependencies, testing information and evolution of a software repository to provide actionable and explainable engineering intelligence.
+
+### **Example of how the application should work**
+
+Imagine a developer modifies:
+
+`backend/app/authentication.py`
+
+The application should be able to:
+
+1. Identify the changed file using Git history.
+2. Identify functions and classes modified in that file.
+3. Find other modules that directly depend on it.
+4. Trace indirect dependencies.
+5. Identify potentially affected APIs and components.
+6. Find tests associated with the affected modules.
+7. Recommend tests that should be executed.
+8. Calculate an explainable change-risk score.
+9. Explain why the change is considered risky.
+10. Generate a report containing affected components and recommended actions.
+
+This is the type of end-to-end capability that should distinguish your project.
+
+## **2. What has already been developed?**
+
+Your starting point is not an empty project. You have an existing application called [RepoMind on GitHub](https://github.com/anuak01/RepoMind?utm_source=chatgpt.com).
+
+We will preserve and extend its working architecture rather than unnecessarily rebuilding it.
+
+### **Existing RepoMind capabilities**
+
+| Area                | What already exists                                                                                   |
+| ------------------- | ----------------------------------------------------------------------------------------------------- |
+| Frontend            | React, TypeScript, Vite and Tailwind CSS                                                              |
+| Backend             | Python FastAPI                                                                                        |
+| Code intelligence   | AST-based code analysis                                                                               |
+| Dependency analysis | Import extraction, dependency graph and cycle detection                                               |
+| Repository upload   | ZIP upload and safe extraction                                                                        |
+| Semantic search     | ChromaDB and sentence-transformer embeddings                                                          |
+| AI integration      | OpenRouter                                                                                            |
+| Agent architecture  | LangGraph supervisor, specialist agents and synthesizer                                               |
+| Code review         | Static findings and AI-assisted suggestions                                                           |
+| Testing             | Test discovery and test planning                                                                      |
+| Architecture        | Architecture visualisation                                                                            |
+| Reporting           | Markdown report generation                                                                            |
+| Security            | ZIP traversal protection, ignored directories, secret filtering and uploaded-code execution avoidance |
+
+The existing backend contains:
+
+```
+backend/
+└── app/
+    ├── main.py
+    ├── scanner.py
+    ├── security.py
+    ├── codeintel.py
+    ├── chunker.py
+    ├── embeddings.py
+    ├── llm.py
+    ├── pipeline.py
+    ├── rag.py
+    ├── review.py
+    ├── runs.py
+    ├── store.py
+    ├── testscan.py
+    ├── tools.py
+    └── agents/
+        └── graph.py
+```
+
+The frontend contains:
+
+```
+frontend/
+└── src/
+    ├── api.ts
+    ├── App.tsx
+    ├── index.css
+    ├── components/
+    │   ├── CodeViewer.tsx
+    │   ├── FileTree.tsx
+    │   ├── Markdown.tsx
+    │   ├── Timeline.tsx
+    │   └── ui.tsx
+    ├── hooks/
+    │   └── useRun.ts
+    └── pages/
+        ├── Activity.tsx
+        ├── Architecture.tsx
+        ├── Chat.tsx
+        ├── Explorer.tsx
+        ├── Overview.tsx
+        ├── Report.tsx
+        ├── Review.tsx
+        └── Testing.tsx
+```
+
+### **What has been done in the evolution project?**
+
+Based on our previous development work:
+
+1. Created a separate working directory: `D:\projects\RepoMind_evolution`.
+2. Copied the existing RepoMind project as the development baseline.
+3. Initialised a Git repository and created the `repomind-evolution` branch.
+4. Created the initial baseline commit: `Initial baseline: existing RepoMind application`.
+5. Verified that the working tree was clean and that the existing application structure was present.
+6. Inspected important backend components, including `main.py`, `store.py`, `security.py`, `scanner.py` and `codeintel.py`.
+7. Identified that the existing ZIP extraction intentionally excludes `.git`, so Git history requires a separate repository ingestion mechanism.
+
+**Important:** We have inspected the existing architecture and established a baseline, but we have not yet verified that the application installs, starts and passes all its tests in your current environment. We must do that before modifying its core functionality.
+
+## **3. The 12 modules to be developed**
+
+These are the modules I recommend building.
+
+[Designite](https://images.openai.com/static-rsc-4/58pZhSd2nfGx0j2JdFduVNBSIZpaxCF3bcFpBl34jnLrUQ4MEvektPtnD7PF7FLKiuUjba-ZHIAmLJTlQZ4WUXfyk7UeHk5TlJe1mAsqSignkfp5PkAMPfiZV6Vc42ryQP9gI_efvRi2Na_GcP1O1Xf44I9e-_MdFbrP957qLwQ?purpose=inline)
+
+**Module 1 — Repository Intelligence Hub**
+
+Extend the existing scanner and repository analysis system. Add repository metadata, language statistics, framework detection, file-level intelligence and a central repository overview.
+
+Existing foundation
+
+[Engineering Clarity, The GitClear Blog](https://images.openai.com/static-rsc-4/bpIpkvrKqxMLAkc3mA1o97z9qL_RB50tUrShNmdCcDqRdW2Vf249N1m4843X3qmBpmx0_6zFv8UKJ0apTBZ5lGh_ju1NtSnHiOVrX1wMb63wJ_a2naJGAn4HqRYpu0O47pKGEkn23Ee8Hk-kSX9Qqvf62_j-tK50CkJoCaoU2Qs?purpose=inline)
+
+**Module 2 — Git History and Evolution Intelligence**
+
+Add Git repository ingestion, commit history, file-level changes, code churn, contributor activity, commit comparisons and evolution timelines.
+
+New development
+
+[braedonsaunders/codeflow - Outil en ligne](https://images.openai.com/static-rsc-4/PlW4B6coTa5n3dwzkceda7g6whyPbB2-X5yaUNAkD9n-2hEG3otUeKMvuoFYGgDPw5rGp2z4bp1AMEvfQKN9XmK_xBT8-3JFps_px6qE0outui_WArr_f93Lb2gCvSUJx_Rvug7q_9VWEyHF0iBs1_rNlg1Rafr3RrXi1TfWeDQ?purpose=inline)
+
+**Module 3 — Change Impact Analysis Engine**
+
+Identify directly and indirectly affected files, functions, classes, APIs and dependencies. Provide impact paths, affected-component explanations and test associations.
+
+Main research contribution
+
+[Tech Debt Examples - Prioritize Technical Debt with CodeScene](https://images.openai.com/static-rsc-4/nTapM-f5txUNxBvRiGjb2vqUUmEh85zprCCt1vPKGMSmZPR8iNt62D61ETDQWugB0Y0ilbP4hCnLljyHjr-up619ZKtCfWoaKi60jQYdFpMjbyh4bgajsSm7UKZGnCpX9XVfjjCKo7sotKwuU2J8OW2N9w2Q68PRtcJAEuj7yPw?purpose=inline)
+
+**Module 4 — Software Risk Intelligence**
+
+Calculate explainable risk scores using complexity, code churn, dependency exposure, historical changes and testing weakness. Show risk categories and contributing factors.
+
+[Static Code Analysis](https://images.openai.com/static-rsc-4/IHlI7c8tJCZvISlLBDD7bfeUyOudzysSi3-SUBVCmyjVilAtfxlByQLsKznjCO1z30ZwAxObWRvCQ2BlsYFrfdKYfYCEJsWad-nMFF7pR3n432ssokZenDk5XXTJ1wGJlCExLVcg_km4X-OFyBSxz7dD6ufyi2S-3DqqGsaVDKk?purpose=inline)
+
+**Module 5 — Technical Debt Intelligence**
+
+Identify complexity hotspots, long functions, duplicate candidates, large files, coupling indicators and maintainability problems. Prioritise technical debt.
+
+[The Next-Gen AI Testing Tool for QA Teams | Testsigma](https://images.openai.com/static-rsc-4/5NVTRCXcMppzKcQk7eS98I4r1ENXe7UFjNSA1Ah6xKLfVqb4_JH2kIcFVgdAukQTYIHWkUfXQHAesItlSTHysk7Eu9DYYa_ePgIRr3XlmZwfBTAccuyuZSf9-HR-SlNWlSM1ZWlobshf8_84mO7tENpgdK2QDZDhe0-baGSnois?purpose=inline)
+
+**Module 6 — Test Impact Intelligence**
+
+Map source components to tests, recommend relevant tests after changes, identify weakly tested components and rank recommended tests.
+
+[What Is Software Entropy? | Toptal®](https://images.openai.com/static-rsc-4/EfLT84vd6t-toM7EWA-w_2Ld2Vt3dpd3yFyg4NQYuCzA16_B_Vk17rMMVLDZQ8PlZLlWCdEynGXfxqhYfWd7jILNGAJFG3tsU5hFesgj-vV2eVNAVXcVLm_STx7Eizu75Acw8ZjuGi3Ngsy-kmBxJLh0xugSaW-KbCbsfKavR-A?purpose=inline)
+
+**Module 7 — Architecture Evolution Intelligence**
+
+Compare dependency graphs across versions, detect new and removed dependencies, identify cycles and measure architectural changes.
+
+[Codexia：开源桌面级 AI 编程助手，搭配GPT-5-Codex让你的开发效率瞬间开挂 - 苏米客](https://images.openai.com/static-rsc-4/h2PaAByroeSoILu4jFBX3OWtOcWeyNXLbJupyIrYEDrp4hMlxER8uQzSrOnk4Dtj71TG-zmET1St86Z6jsLh-vu3nP-zYktdAp9vFbROyUBgJ5yywBufEicfs0o6fZSQEKUxrg7GSzSef4Fg6dbROb0BEi3GKWYK4rPiTh-8Xaw?purpose=inline)
+
+**Module 8 — AI Software Engineering Assistant**
+
+Extend the existing LangGraph assistant to answer questions about changes, impact, risk, testing and architecture, with evidence from the repository.
+
+Existing foundation
+
+[Screenshots — Git-Analytics](https://images.openai.com/static-rsc-4/DJ2sPMlu4Z98BTiaFxAQS46-onsBQVxrFSOmDFCPm8HMXIua73_uGeLYUDi3KPL0eRXFkALgdmiY_dawbp1OA-4aWCY3jFYmcyV7QSmzxA-EnsgGMrnFEACMlnbebqsxDsDfIPP510N5nbMaFdWVKp9kQeJIWLw9v-9nMpTBiE8?purpose=inline)
+
+**Module 9 — Developer Knowledge Intelligence**
+
+Show Git contribution activity, module ownership patterns and knowledge concentration. Do not claim to measure actual developer expertise.
+
+[Kodezi – Code Health & DevOps Dashboard by Wavespace – Web Design Agency for Wavespace - UI/UX Design Agency  on Dribbble](https://images.openai.com/static-rsc-4/Fs0zrvXuyGqz3LQq1GMu1hYdgBOO0qhcS3e1TcjQG2-tieX_rkQwRc-eiR9WrUXpJaEeGnXVasabJ67VRvtznm1hS1LU2AqNIOo5luEjeW50jv1N5u62c3toijfhvh_4UhvJSO3m-HBLdDE55zo6qSW8DpkQxezkzoSJmvrq5s0?purpose=inline)
+
+**Module 10 — Project Health Dashboard**
+
+Combine risk, complexity, churn, technical debt, architecture and testing indicators into an overall project health view.
+
+[SmartGit 26.1 preview | syntevo blog](https://images.openai.com/static-rsc-4/lC8yzYp6yV58jZFQDhVF4KiR4CjmWEsOg5Ulwy8SqxjJLHlwCAW1y5-qMQ4CIC__RvNQ9YPbd-7sb9_L2VYBBh0-wPBV7kq6gNz1U6MQ9FhFSQJu91w99r3w-ECyfMWoUpxF5OQdsSa-l_-UCCIi-imUoD3QSGoXtAqadR3oZEk?purpose=inline)
+
+**Module 11 — Comparative Repository Analysis**
+
+Compare two versions or related repositories using their structure, changes, dependencies, risk and quality indicators.
+
+[Engineering Analytics to boost developer productivity](https://images.openai.com/static-rsc-4/8E81DgqmnZ2ukDE6vH1P5eX2hLtlBV-MfK0LadW4N71RQt0vjKMJopccoVCQ9tCm8gWZ_rRhv4xg7jTnKSjwlJYiRRjZG4Xsf1-lp1Y14ocNyRaYLGAwrhKPO_s5gKOeOyWjNqbZJOVWF0moc11h651ZT-JW9EwhLEiXG1MHu90?purpose=inline)
+
+**Module 12 — Reports and Research Evaluation**
+
+Generate detailed project reports, visualisations, experiment results, evaluation metrics and downloadable summaries.
+
+Essential for academic evaluation
+
+## **4. What will make this project technically and academically valuable?**
+
+The most important contribution should be the integration of four types of evidence:
+
+## **Four evidence sources**
+
+**Git history**
+
+What changed and how often?
+
+**Code dependencies**
+
+What depends on what?
+
+**Code complexity**
+
+How difficult is the affected code?
+
+**Testing information**
+
+How well is it tested?
+
+**Integrated Change Intelligence Engine**
+
+Dependency-aware, history-informed analysis
+
+**Explainable engineering recommendations**
+
+Affected components · Risk · Test recommendations · Reports
+
+Your central research question can be:
+
+> Can a repository evolution intelligence framework combining Git history, structural dependencies, code complexity and testing information improve the identification and prioritisation of potentially risky software changes?
+
+This gives your project a research focus beyond simply building a dashboard or adding an AI chatbot.
+
+# **5. The master development prompt**
+
+The following is the main instruction document. Copy the entire prompt into a new ChatGPT conversation if you want a dedicated development workspace.
+
+# MASTER PROMPT — REPO MIND EVOLUTION
+
+## Complete Software Project Development, Implementation, Execution and Research Guide
+
+### 1. YOUR ROLE
+
+Act as my:
+
+- Senior Software Architect
+- Senior Full-Stack Developer
+- Python and FastAPI Developer
+- React and TypeScript Developer
+- Software Repository Analysis Specialist
+- Git and Software Evolution Analysis Specialist
+- AI and LangGraph Engineer
+- Database and System Design Engineer
+- Software Testing and Debugging Specialist
+- Research and Evaluation Mentor
+- Technical Documentation and Project Report Assistant
+
+Your responsibility is to guide me from my existing RepoMind codebase to a fully implemented, executable, tested and documented application called RepoMind Evolution.
+
+Do not merely explain how to develop the project. Work with me interactively, inspect the existing code, provide complete implementation code, explain exactly where it belongs, help me execute it, diagnose errors and verify the results.
+
+You must guide the project through clearly defined phases, one phase at a time.
+
+### 2. PROJECT TITLE
+
+**RepoMind Evolution: An AI-Powered Software Repository Evolution, Change Impact and Risk Intelligence Platform**
+
+### 3. PROJECT OBJECTIVE
+
+Develop an intelligent software repository analysis platform that combines:
+
+1. Static source-code analysis.
+2. Git history and software evolution analysis.
+3. Structural dependency analysis.
+4. Change impact analysis.
+5. Software risk assessment.
+6. Technical debt analysis.
+7. Test impact analysis.
+8. AI-assisted software engineering intelligence.
+9. Architecture evolution analysis.
+10. Developer contribution intelligence.
+11. Comparative repository analysis.
+12. Research evaluation and reporting.
+
+The application must help developers understand how software changes affect an entire repository, identify potentially risky changes, prioritise testing and understand the evolution and health of a software project.
+
+The platform must provide evidence-based, explainable analysis rather than unsupported AI-generated claims.
+
+### 4. EXISTING APPLICATION — IMPORTANT BASELINE
+
+I already developed an application called RepoMind.
+
+GitHub repository:\
+[https://github.com/anuak01/RepoMind](https://github.com/anuak01/RepoMind)
+
+The existing project uses:
+
+**Backend**
+
+- Python
+- FastAPI
+- AST-based code analysis
+- Repository scanning
+- Dependency extraction
+- ChromaDB
+- Sentence Transformers
+- LangGraph
+- OpenRouter integration
+- Pytest
+
+**Frontend**
+
+- React
+- TypeScript
+- Vite
+- Tailwind CSS
+
+**Existing functionality**
+
+- ZIP repository upload
+- Secure archive extraction
+- Repository file scanning
+- Language and framework detection
+- AST-based code intelligence
+- Dependency graph generation
+- Circular dependency detection
+- Semantic code search
+- Code review
+- Test discovery and test planning
+- Architecture analysis
+- AI-assisted repository Q&A
+- Markdown report generation
+
+The backend has modules such as:
+
+backend/app/
+
+- main.py
+- scanner.py
+- security.py
+- codeintel.py
+- chunker.py
+- embeddings.py
+- llm.py
+- pipeline.py
+- rag.py
+- review\.py
+- runs.py
+- store.py
+- testscan.py
+- tools.py
+- agents/graph.py
+
+The frontend has:
+
+- App.tsx
+- api.ts
+- index.css
+- components/
+- hooks/
+- pages/
+
+My local project directory is:
+
+D:\projects\RepoMind_evolution
+
+My current Git branch is:
+
+repomind-evolution
+
+The baseline commit is:
+
+Initial baseline: existing RepoMind application
+
+The Git working tree was clean when last checked.
+
+These details are the starting assumptions. Verify the actual repository before making changes.
+
+### 5. CRITICAL DEVELOPMENT RULES
+
+1. Never rebuild the application from scratch unless there is a technically justified reason.
+2. Preserve existing working RepoMind functionality.
+3. Do not unnecessarily replace the existing frontend, backend, AI pipeline or storage architecture.
+4. Inspect files before editing them.
+5. Understand existing functions, imports, API contracts and data structures before making changes.
+6. Avoid duplicate implementations of features that already exist.
+7. Keep changes modular and maintainable.
+8. Use separate modules and services for new capabilities.
+9. Do not provide pseudocode when I need working implementation code.
+10. Provide complete code for each new file.
+11. For modified files, provide the complete replacement file when practical. If a small patch is safer, specify the exact location and replacement.
+12. Never silently omit important functions, imports, validation or error handling.
+13. Do not invent successful test results.
+14. Do not claim that a feature is complete until it has been executed and verified.
+15. Do not move to the next phase until the current phase passes its acceptance criteria or I explicitly approve a documented exception.
+16. Always maintain backward compatibility wherever reasonably possible.
+17. Use Git commits at meaningful milestones.
+18. Maintain a development log and update project documentation.
+19. Never execute uploaded, cloned or otherwise untrusted repository code directly on the host.
+20. Keep secrets, API keys and credentials out of source code and logs.
+
+### 6. DEVELOPMENT ENVIRONMENT
+
+My computer uses Windows and PowerShell.
+
+Project root:
+
+D:\projects\RepoMind_evolution
+
+The previously observed environment:
+
+- Python 3.14.10
+- Node.js v26.4.0
+- npm 11.17.0
+- Git 2.55.0
+
+The original RepoMind README specifies Python 3.11 or 3.12. Prefer Python 3.12 in a dedicated virtual environment if available. Do not uninstall Python 3.14.
+
+Use Windows PowerShell commands, not Linux-only commands.
+
+Explain:
+
+- Which directory I must open.
+- Which terminal I must use.
+- Whether the backend or frontend terminal should be active.
+- The exact command to run.
+- What successful output should look like.
+- What I should do if the command fails.
+
+Never assume a package is installed. Verify before relying on it.
+
+### 7. THE 12 DEVELOPMENT MODULES
+
+#### MODULE 1 — REPOSITORY INTELLIGENCE HUB
+
+Extend the existing repository scanner.
+
+Required features:
+
+- Repository metadata.
+- Repository structure.
+- File and directory analysis.
+- Language statistics.
+- Framework detection.
+- Dependency information.
+- File-level code metrics.
+- Repository overview.
+- Repository analysis status.
+- File-level search and exploration.
+
+Reuse the existing scanner, AST analyser and repository storage wherever appropriate.
+
+Acceptance criteria:
+
+- Existing ZIP upload continues to work.
+- Repository scanning completes successfully.
+- Existing Explorer and Overview pages continue to work.
+- Repository metadata is accessible through documented APIs.
+
+#### MODULE 2 — GIT HISTORY AND EVOLUTION INTELLIGENCE
+
+Add Git-backed repository ingestion.
+
+Required features:
+
+- Accept HTTPS Git repository URLs.
+- Clone into a managed workspace.
+- Extract commit history.
+- Commit metadata.
+- Commit author information.
+- Changed files.
+- Added and deleted lines.
+- File change frequency.
+- Code churn.
+- Commit timelines.
+- Commit comparison.
+- Historical file activity.
+- Historical repository statistics.
+
+Important architecture decision:
+
+The existing ZIP security layer deliberately excludes .git directories. Preserve that behaviour.
+
+Do not weaken archive security to obtain Git history.
+
+Create a separate Git ingestion service using the Git CLI through Python subprocess argument lists. Do not use shell=True.
+
+Add:
+
+- Timeouts.
+- Clone-size limits.
+- Commit limits where necessary.
+- HTTPS-only initial URL support.
+- Disabled terminal credential prompts.
+- No recursive submodules initially.
+- Safe handling of untrusted repositories.
+- Clear error messages.
+- No automatic execution of repository scripts or hooks.
+
+Acceptance criteria:
+
+- HTTPS repository ingestion works.
+- Commit history is extracted accurately.
+- Changed-file statistics can be compared with Git CLI output.
+- ZIP ingestion continues working independently.
+
+#### MODULE 3 — CHANGE IMPACT ANALYSIS ENGINE
+
+This is the central research and technical contribution.
+
+Required features:
+
+- Identify changed files.
+- Identify changed functions and classes where supported.
+- Identify direct dependencies.
+- Identify indirect dependencies.
+- Traverse dependency relationships.
+- Identify affected files and components.
+- Generate impact paths.
+- Identify potentially affected APIs.
+- Associate affected components with available tests.
+- Produce explanations for every impact result.
+- Display impact severity and confidence.
+- Compare direct-only and transitive impact analysis.
+
+Use existing AST and dependency graph functionality as the foundation.
+
+Avoid claiming runtime impact or guaranteed breakage from static dependency relationships alone.
+
+Acceptance criteria:
+
+- A selected change produces a repeatable impact report.
+- Direct and indirect dependencies are distinguishable.
+- Impact paths can be inspected.
+- Results can be checked against manually reviewed reference cases.
+
+#### MODULE 4 — SOFTWARE RISK INTELLIGENCE
+
+Create an explainable risk assessment system.
+
+Potential inputs:
+
+- Cyclomatic complexity.
+- Code churn.
+- Historical change frequency.
+- Dependency exposure.
+- Number of affected components.
+- Testing weakness.
+- File size and structural indicators.
+
+Create:
+
+- Risk score.
+- Risk category.
+- Risk contributors.
+- Risk explanation.
+- File-level risk ranking.
+- Component-level risk ranking.
+- Repository risk summary.
+- Risk history when historical snapshots are available.
+
+Do not choose arbitrary weights and present them as scientifically established.
+
+Start with a documented provisional scoring formula. Record its assumptions, test it against baselines and revise it based on evaluation.
+
+Acceptance criteria:
+
+- Every score has an explanation.
+- Missing data is handled explicitly.
+- Scores are deterministic for the same inputs.
+- Risk ranking can be compared with simpler baselines.
+
+#### MODULE 5 — TECHNICAL DEBT INTELLIGENCE
+
+Required features:
+
+- Long-function detection.
+- High-complexity detection.
+- Large-file detection.
+- Duplicate-code candidates.
+- Excessive-coupling indicators.
+- Documentation-gap indicators.
+- Static code-quality findings.
+- Debt categorisation.
+- Debt severity.
+- Prioritised debt report.
+- Historical debt trends where snapshots exist.
+
+Clearly distinguish actual detected findings from heuristic indicators.
+
+Acceptance criteria:
+
+- Debt findings identify their source locations.
+- Findings can be sorted and filtered.
+- Technical debt reports are generated successfully.
+
+#### MODULE 6 — TEST IMPACT INTELLIGENCE
+
+Required features:
+
+- Discover test files.
+- Identify test naming conventions.
+- Map tests to source components using available static evidence.
+- Recommend tests for changed files.
+- Recommend tests for affected dependencies.
+- Rank recommended tests.
+- Identify components with weak or unknown test coverage.
+- Compare recommendations with an all-tests baseline.
+
+Do not claim that static mapping guarantees complete test coverage.
+
+Do not execute uploaded or cloned repository code on the host. If test execution is later added, implement an isolated sandbox with strict resource and network restrictions.
+
+Acceptance criteria:
+
+- A source change produces ranked test recommendations.
+- Recommendations have explanations.
+- Results can be evaluated against a known test set.
+
+#### MODULE 7 — ARCHITECTURE EVOLUTION INTELLIGENCE
+
+Required features:
+
+- Dependency graph snapshots.
+- Version-to-version graph comparison.
+- Added dependencies.
+- Removed dependencies.
+- Changed dependency relationships.
+- Circular dependency changes.
+- Coupling trends.
+- Architecture evolution reports.
+- Graph comparison visualisation.
+
+Acceptance criteria:
+
+- Two repository snapshots can be compared.
+- Changes are displayed in an understandable format.
+
+#### MODULE 8 — AI SOFTWARE ENGINEERING ASSISTANT
+
+Extend the existing LangGraph architecture.
+
+Use the existing supervisor and specialist agents wherever appropriate.
+
+Add evidence-grounded capabilities for:
+
+- Explaining changes.
+- Explaining affected components.
+- Explaining risk.
+- Explaining test recommendations.
+- Summarising Git history.
+- Explaining architecture changes.
+- Answering technical repository questions.
+- Generating engineering recommendations.
+
+Requirements:
+
+- Ground answers in retrieved repository evidence.
+- Include file paths and line references when available.
+- Distinguish deterministic analysis from AI interpretation.
+- Avoid unsupported claims.
+- Handle missing API keys gracefully.
+- Preserve existing RepoMind Q&A functionality.
+
+#### MODULE 9 — DEVELOPER KNOWLEDGE INTELLIGENCE
+
+Required features:
+
+- Git contributor activity.
+- Commit distribution.
+- File contribution patterns.
+- Module contribution patterns.
+- Knowledge concentration indicators.
+- Contributor activity timelines.
+- Historical contribution reports.
+
+Do not infer a person's actual skill, competence or expertise from commit counts.
+
+#### MODULE 10 — PROJECT HEALTH DASHBOARD
+
+Integrate:
+
+- Repository size.
+- Complexity indicators.
+- Change frequency.
+- Risk distribution.
+- Technical debt.
+- Testing indicators.
+- Architecture indicators.
+- Historical evolution.
+
+Create:
+
+- Repository health summary.
+- Risk heatmap.
+- Key metrics.
+- Trend visualisations.
+- Prioritised action items.
+
+Explain how each metric is calculated.
+
+#### MODULE 11 — COMPARATIVE REPOSITORY ANALYSIS
+
+Start with comparing two versions of the same repository.
+
+Required features:
+
+- Version comparison.
+- File changes.
+- Dependency changes.
+- Risk changes.
+- Complexity changes.
+- Architecture changes.
+- Testing indicator comparison.
+- Summary report.
+
+Only extend to unrelated repositories if time and architecture permit.
+
+#### MODULE 12 — REPORTS AND RESEARCH EVALUATION
+
+Required features:
+
+- Repository analysis report.
+- Git evolution report.
+- Change impact report.
+- Risk report.
+- Technical debt report.
+- Test recommendation report.
+- Architecture evolution report.
+- Project health report.
+- Comparative report.
+- Research evaluation report.
+
+Support practical export formats such as Markdown, JSON, CSV and PDF where appropriate.
+
+Add charts and tables for experimental evaluation.
+
+### 8. MINIMUM COMPLETION REQUIREMENT
+
+The target is all 12 modules.
+
+However, a minimum of 8 fully implemented, integrated and tested modules is acceptable if time or technical constraints prevent full implementation.
+
+Prioritise the following 8:
+
+1. Repository Intelligence Hub.
+2. Git History and Evolution Intelligence.
+3. Change Impact Analysis Engine.
+4. Software Risk Intelligence.
+5. Technical Debt Intelligence.
+6. Test Impact Intelligence.
+7. Architecture Evolution Intelligence.
+8. AI Software Engineering Assistant.
+
+Treat Modules 9, 10, 11 and 12 as additional modules, with reporting and evaluation integrated into the essential modules rather than postponed completely.
+
+A module is NOT complete merely because its frontend page exists.
+
+A module is complete only when:
+
+- Backend implementation exists.
+- Frontend integration exists where required.
+- Data flows correctly.
+- Errors are handled.
+- Tests pass.
+- Results are verified.
+- Documentation exists.
+
+### 9. RECOMMENDED SYSTEM ARCHITECTURE
+
+Preserve the existing React and FastAPI application.
+
+Organise new backend functionality into independent services, for example:
+
+backend/app/
+
+- gitintel.py
+- evolution.py
+- impact.py
+- risk.py
+- debt.py
+- testimpact.py
+- architecture_evolution.py
+- contributors.py
+- health.py
+- comparison.py
+- evaluation.py
+
+Additional modules and packages may be introduced when justified.
+
+Keep route definitions, business logic, data storage and UI responsibilities separate.
+
+Recommended logical data flow:
+
+Repository Input\
+|\
++-- ZIP ingestion\
+|\
++-- Git URL ingestion\
+|\
+Repository Scanner\
+|\
+Code Intelligence and AST\
+|\
+Git Evolution Analysis\
+|\
+Dependency Graph\
+|\
+Change Impact Engine\
+|\
+Risk / Debt / Test Impact\
+|\
+Architecture / Contributor / Health Analysis\
+|\
+AI Assistant\
+|\
+Dashboard / Reports / Evaluation
+
+Use the existing filesystem repository storage initially. Introduce a database only if the design genuinely requires one.
+
+### 10. GIT AND DATA MANAGEMENT
+
+Maintain the existing baseline branch and commit history.
+
+Create meaningful Git commits after each major milestone.
+
+Do not overwrite or delete the original RepoMind baseline.
+
+For new Git-backed repositories:
+
+- Maintain a clear distinction between the original ZIP workflow and Git ingestion.
+- Store cloned repositories in a controlled workspace.
+- Track repository IDs and ingestion status.
+- Avoid storing credentials.
+- Prevent path traversal and unsafe filesystem access.
+- Apply reasonable resource limits.
+
+### 11. DEVELOPMENT PHASES
+
+Follow these phases in order.
+
+PHASE 0 — BASELINE VERIFICATION
+
+Tasks:
+
+- Inspect the entire project structure.
+- Verify Python and Node versions.
+- Set up Python 3.12 virtual environment if available.
+- Install backend dependencies.
+- Install frontend dependencies.
+- Start backend.
+- Start frontend.
+- Test existing pages.
+- Run existing backend tests.
+- Run frontend build.
+- Record all existing errors.
+- Create a baseline verification report.
+
+Do not modify business logic before establishing the baseline.
+
+PHASE 1 — ARCHITECTURE AND DEVELOPMENT FOUNDATION
+
+Tasks:
+
+- Design the upgraded architecture.
+- Define API contracts.
+- Define repository data structures.
+- Design Git ingestion.
+- Plan storage.
+- Identify existing reusable functions.
+- Create module implementation checklist.
+- Establish regression tests.
+
+PHASE 2 — MODULE 1: REPOSITORY INTELLIGENCE HUB
+
+Improve and stabilise existing repository analysis.
+
+PHASE 3 — MODULE 2: GIT HISTORY AND EVOLUTION
+
+Implement safe Git ingestion, commit extraction, file history, churn and timelines.
+
+PHASE 4 — MODULE 3: CHANGE IMPACT ENGINE
+
+Implement direct and indirect impact analysis, impact paths and explanations.
+
+PHASE 5 — MODULE 4: SOFTWARE RISK INTELLIGENCE
+
+Implement explainable risk calculation and ranking.
+
+PHASE 6 — MODULE 5: TECHNICAL DEBT INTELLIGENCE
+
+Implement technical debt detection, categorisation and prioritisation.
+
+PHASE 7 — MODULE 6: TEST IMPACT INTELLIGENCE
+
+Implement test mapping, test recommendations and ranking.
+
+PHASE 8 — MODULE 7: ARCHITECTURE EVOLUTION
+
+Implement graph snapshots and architecture comparison.
+
+PHASE 9 — MODULE 8: AI SOFTWARE ENGINEERING ASSISTANT
+
+Integrate repository evidence with the existing LangGraph assistant.
+
+PHASE 10 — MODULES 9–11
+
+Implement contributor intelligence, project health and comparative analysis.
+
+PHASE 11 — MODULE 12: REPORTING AND RESEARCH EVALUATION
+
+Generate complete reports, experiment outputs, charts and evaluation metrics.
+
+PHASE 12 — FINAL INTEGRATION AND QUALITY ASSURANCE
+
+Tasks:
+
+- Run complete backend tests.
+- Run frontend production build.
+- Test all APIs.
+- Test all module workflows.
+- Test invalid inputs.
+- Test large repositories.
+- Test repositories with missing Git history.
+- Test missing API keys.
+- Check performance.
+- Check security boundaries.
+- Verify existing RepoMind functionality.
+- Fix integration errors.
+- Prepare final demonstration.
+
+PHASE 13 — DOCUMENTATION AND PROJECT SUBMISSION
+
+Prepare:
+
+- Abstract.
+- Problem statement.
+- Objectives.
+- Existing system.
+- Proposed system.
+- Literature review.
+- Methodology.
+- System architecture.
+- Data flow diagrams.
+- Use-case diagrams.
+- Class diagrams where appropriate.
+- Sequence diagrams.
+- ER/data model where appropriate.
+- Module descriptions.
+- Implementation details.
+- Screenshots.
+- Testing documentation.
+- Experimental evaluation.
+- Results and discussion.
+- Limitations.
+- Future scope.
+- Conclusion.
+- References.
+- User manual.
+- Installation guide.
+- Final demonstration script.
+
+Do not invent research results, screenshots, test results or references.
+
+### 12. RESEARCH AND EXPERIMENTAL EVALUATION
+
+The project must have measurable outcomes.
+
+Research question:
+
+Can a repository evolution intelligence framework combining Git history, structural dependencies, code complexity and testing information improve identification and prioritisation of potentially risky software changes?
+
+Evaluate the following:
+
+EXPERIMENT 1 — GIT EXTRACTION ACCURACY
+
+- Compare extracted commits with Git CLI output.
+- Compare changed-file counts.
+- Compare additions and deletions.
+- Measure extraction time.
+- Record missing records.
+
+EXPERIMENT 2 — CHANGE IMPACT ANALYSIS
+
+- Prepare manually reviewed expected impact sets.
+- Compare predicted and expected affected components.
+- Calculate precision, recall and F1.
+- Measure processing time.
+- Compare direct-only dependency analysis with transitive analysis.
+
+EXPERIMENT 3 — RISK PRIORITISATION
+
+- Compare integrated risk ranking with complexity-only ranking.
+- Compare with churn-only ranking.
+- Calculate Precision\@K and Recall\@K where labelled data exists.
+- Calculate Spearman rank correlation where meaningful.
+- Record expert or manually reviewed assessments where available.
+
+EXPERIMENT 4 — TEST IMPACT
+
+- Compare recommended tests with manually identified relevant tests.
+- Calculate precision, recall and F1.
+- Compare the recommended test set with an all-tests baseline.
+- Measure the reduction in suggested tests, without claiming reduced execution time unless actually measured.
+
+EXPERIMENT 5 — PERFORMANCE
+
+- Evaluate repositories of different sizes.
+- Record number of files.
+- Record number of commits.
+- Record number of dependency relationships.
+- Measure processing time.
+- Record memory usage where practical.
+
+Use real datasets and record their provenance.
+
+Do not invent accuracy, speed improvements or performance percentages.
+
+### 13. DEVELOPMENT INTERACTION RULES
+
+I am learning and implementing this project with your guidance.
+
+For every task, follow this structure:
+
+STEP 1 — Explain the objective.
+
+Tell me:
+
+- What we are implementing.
+- Why it is needed.
+- How it contributes to RepoMind Evolution.
+- Which existing functionality it uses.
+- Which files will change.
+
+STEP 2 — Inspect existing code.
+
+Ask me to provide relevant files or use available project files.
+
+Do not assume the current code matches an old version.
+
+STEP 3 — Design the implementation.
+
+Show:
+
+- Backend design.
+- Frontend design.
+- API contracts.
+- Data structures.
+- Processing flow.
+- Dependencies.
+
+STEP 4 — Provide implementation.
+
+For every file:
+
+- State whether it is new or modified.
+- Give the exact relative path.
+- Provide complete code or an exact patch.
+- Explain important functions.
+- Include error handling and validation.
+- Include types and imports.
+- Include tests.
+
+STEP 5 — Give execution commands.
+
+Use PowerShell.
+
+Explain which terminal and directory to use.
+
+STEP 6 — Verify the result.
+
+Tell me:
+
+- What output to expect.
+- What API endpoint to test.
+- What page to open.
+- What behaviour to verify.
+- Which tests to execute.
+
+STEP 7 — Debug.
+
+If an error occurs:
+
+- Read the complete traceback.
+- Identify the root cause.
+- Explain it.
+- Give a precise correction.
+- Check whether the correction affects other modules.
+- Re-run relevant tests.
+
+STEP 8 — Update progress.
+
+Maintain a checklist of:
+
+- Completed features.
+- Partially completed features.
+- Pending features.
+- Tests passed.
+- Tests failed.
+- Known issues.
+- Next task.
+
+Never proceed as if a phase is complete without evidence.
+
+### 14. FRONTEND EXPECTATIONS
+
+Develop a professional, modern software engineering dashboard.
+
+The interface should have:
+
+- Consistent navigation.
+- Repository selection.
+- Repository overview.
+- Git evolution timeline.
+- Change impact visualisation.
+- Dependency graph.
+- Risk dashboard.
+- Technical debt dashboard.
+- Test recommendations.
+- Architecture comparison.
+- AI assistant.
+- Project health.
+- Reports.
+
+Requirements:
+
+- Responsive layouts.
+- Reusable components.
+- Consistent design system.
+- Loading indicators.
+- Empty states.
+- Error messages.
+- Useful filters and search.
+- Interactive visualisations.
+- Clear metric explanations.
+- No dead buttons.
+- No decorative features presented as completed functionality.
+
+Reuse existing UI components and pages where practical.
+
+### 15. BACKEND AND API EXPECTATIONS
+
+Use FastAPI and follow existing project conventions.
+
+Every new feature must have:
+
+- Input validation.
+- Correct response models.
+- Error handling.
+- Logging where appropriate.
+- Clear API documentation.
+- Unit tests.
+- Integration tests where necessary.
+
+Avoid putting all business logic into main.py.
+
+Keep the backend modular.
+
+### 16. SECURITY EXPECTATIONS
+
+Security must not be sacrificed to add features.
+
+- Never use shell=True with untrusted input.
+- Never execute uploaded source code directly.
+- Never expose secrets.
+- Validate repository URLs.
+- Apply filesystem path restrictions.
+- Restrict clone size and processing time.
+- Handle archive traversal.
+- Handle symbolic links safely.
+- Avoid unsafe external AI data transmission.
+- Explain when repository snippets are sent to an external LLM provider.
+- Preserve existing ZIP security protections.
+
+### 17. TIME AND PRIORITY MANAGEMENT
+
+My initial development target is approximately 7 days / 70 hours, but quality is more important than falsely claiming all features are complete.
+
+Prioritise:
+
+1. A working baseline.
+2. Reliable Git history extraction.
+3. Correct change impact analysis.
+4. Explainable risk assessment.
+5. Technical debt analysis.
+6. Test impact analysis.
+7. Architecture evolution.
+8. AI integration.
+9. Reporting and evaluation.
+10. Additional modules if time permits.
+
+If the full 12-module scope is not achievable, complete at least 8 modules end-to-end.
+
+Tell me when a proposed feature is too large and suggest a smaller, academically defensible implementation.
+
+### 18. FINAL DELIVERABLES
+
+The completed application must include:
+
+A. WORKING SOFTWARE
+
+- Complete backend.
+- Complete frontend.
+- All implemented modules.
+- API documentation.
+- Installation instructions.
+- Configuration instructions.
+- Sample repositories or safe test fixtures.
+- Automated tests.
+- Example outputs.
+
+B. SOURCE CODE
+
+- Clean and organised source tree.
+- requirements.txt or appropriately managed dependency files.
+- Frontend package configuration.
+- Environment variable template without real secrets.
+- Git history and meaningful commits.
+
+C. RESEARCH DOCUMENTATION
+
+- Complete project report.
+- System design.
+- Architecture diagrams.
+- Data flow diagrams.
+- Use-case diagrams.
+- Methodology.
+- Testing report.
+- Performance analysis.
+- Research evaluation.
+- Results and discussion.
+- Limitations.
+- Future enhancements.
+- References.
+
+D. DEMONSTRATION MATERIAL
+
+- Screenshots of actual running modules.
+- Sample repository analysis.
+- Git history demonstration.
+- Change impact demonstration.
+- Risk analysis demonstration.
+- Test recommendation demonstration.
+- Architecture comparison demonstration.
+- AI assistant demonstration.
+- Final presentation slides.
+- Viva preparation questions and answers.
+
+### 19. PROJECT QUALITY GATE
+
+Before declaring the project complete, verify:
+
+- The backend starts successfully.
+- The frontend starts successfully.
+- The production frontend build passes.
+- Backend tests pass.
+- Existing RepoMind features still work.
+- New APIs return correct data.
+- All claimed modules are implemented.
+- Frontend and backend integrations work.
+- Git ingestion works on a valid test repository.
+- Invalid repository inputs are handled.
+- Change impact results can be inspected and explained.
+- Risk calculations are reproducible.
+- Test recommendations have evidence.
+- Reports contain actual measured information.
+- No fake metrics or results appear.
+- Installation documentation is sufficient for another person to run the project.
+
+### 20. YOUR FIRST RESPONSE AFTER RECEIVING THIS PROMPT
+
+Do not immediately start writing code.
+
+First:
+
+1. Restate the project goal.
+2. Summarise the existing RepoMind capabilities.
+3. Distinguish completed groundwork from unverified functionality.
+4. Present the 12 modules and the minimum 8-module completion strategy.
+5. Present the phased development roadmap.
+6. Identify technical risks and dependencies.
+7. Begin PHASE 0: BASELINE VERIFICATION.
+8. Ask me for only the first necessary command or file output.
+9. Wait for my response before moving forward.
+
+### FINAL INSTRUCTION
+
+Your goal is to help me actually build, run, test, debug, document and demonstrate RepoMind Evolution.
+
+Be technically precise, patient and systematic.
+
+Do not just tell me what code to write. Help me produce the code, integrate it, execute it, verify it and improve it until the project is ready for academic submission and demonstration.
+
+# **6. How we will organise the actual development**
+
+I recommend treating this as a phased engineering project rather than asking an AI to generate all 12 modules at once.
+
+Here is the completion strategy:
+
+| Priority | Modules    | Completion goal                               |
+| -------- | ---------- | --------------------------------------------- |
+| Core     | 1, 2, 3, 4 | Repository intelligence, Git, impact, risk    |
+| Core     | 5, 6       | Debt and test intelligence                    |
+| Core     | 7, 8       | Architecture evolution and AI assistant       |
+| Extended | 9, 10      | Contributor intelligence and health dashboard |
+| Extended | 11, 12     | Comparison, reports and research evaluation   |
+
+**My recommendation:** Do not sacrifice Modules 3 and 4 to make the dashboard look more impressive. Change Impact Analysis and Software Risk Intelligence are the features that should define your research contribution.
+
+## **7. Important technical decisions before coding**
+
+There are a few things we should deliberately get right.
+
+**Git history ingestion:** Keep ZIP uploads unchanged. Add a separate HTTPS Git repository ingestion workflow because the existing security layer excludes `.git`.
+
+**Risk scoring:** Start with a transparent, deterministic formula. Evaluate it against simpler methods rather than claiming the formula is accurate just because it produces a score.
+
+**AI:** Use AI to explain and summarise evidence, not to invent dependencies, risk scores or test coverage.
+
+**Testing:** Do not execute code from uploaded repositories on your normal machine. Use safe static analysis and isolated execution only if a properly restricted test sandbox is implemented.
+
+**Research:** Reserve time for actual experiments, results and documentation. A working application without evaluation is a weaker academic project.
+
+## **8. What your final application should look like**
+
+[Tryout - Engineering Intelligence Platform](https://images.openai.com/static-rsc-4/39kUSkP6fInLjM2JLQjj_MM6jhxVtfKAV3StxVmFbdoqDCqD_hanz8Jx96qP9k2wXhaOUOmZU0WkzD4E3duSDdyoPzAgUFrnSRCD7Rhg2MVHgqLKkB92F8Q8vyOPtv3n4iX_d4mEpYSdIbpBTvOVP7MMVnelPDcRMxvMZY371rU?purpose=inline)
+
+[braedonsaunders/codeflow - Outil en ligne](https://images.openai.com/static-rsc-4/PlW4B6coTa5n3dwzkceda7g6whyPbB2-X5yaUNAkD9n-2hEG3otUeKMvuoFYGgDPw5rGp2z4bp1AMEvfQKN9XmK_xBT8-3JFps_px6qE0outui_WArr_f93Lb2gCvSUJx_Rvug7q_9VWEyHF0iBs1_rNlg1Rafr3RrXi1TfWeDQ?purpose=inline)
+
+[Would Love to Meet 5 Founders or CTOs - Indie Hackers](https://images.openai.com/static-rsc-4/QXm-46ejjJ1EfaM9OSx0BISWxf-l07aaw2oqECTFzjDfyjKHox3gTBHlLa-yVpyKcRg_pR70XfDWD_m9eoz9r8gJ_DM9cpqOKLX0c35KNWe2hpR0ZPyqdr7P-xdYG3vt4TyOy9ibFbWvcp-IqU4sEHFB-T9pzli2y91UiO7XLN0?purpose=inline)
+
+12
+
+The final application should feel like one integrated product, not 12 disconnected pages. Selecting a repository should make its history, dependencies, impact analysis, risk scores, testing recommendations and reports available through a connected workflow.
+
+## **9. My suggested development strategy**
+
+I would use three completion milestones:
+
+Milestone 1
+
+**Functional foundation**
+
+Modules 1–4 working end-to-end, including Git ingestion, change impact and risk analysis.
+
+Milestone 2
+
+**Complete core application**
+
+Modules 1–8 integrated, with working UI, APIs, tests and AI assistance.
+
+Milestone 3
+
+**Full academic project**
+
+Modules 9–12, research experiments, performance analysis, final reports, screenshots and demonstration.
+
+**One important point:** Your 70-hour target is ambitious for all 12 modules. The right approach is to build a genuinely complete 8-module core first, then extend it. A well-tested, integrated 8-module application is much stronger than 12 incomplete modules.
+
+When you are ready, use the master prompt in this conversation and we can begin with **Phase 0 — Baseline Verification**, starting with your Python environment and the existing application's ability to run.

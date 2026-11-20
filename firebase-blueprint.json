@@ -1,0 +1,271 @@
+{
+  "entities": {
+    "UserWorkspace": {
+      "title": "UserWorkspace",
+      "description": "Non-PII workspace root and UI preferences owned by an authenticated user.",
+      "type": "object",
+      "properties": {
+        "ownerId": {
+          "type": "string",
+          "description": "Firebase Auth UID of the workspace owner.",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "preferredTheme": {
+          "type": "string",
+          "description": "Preferred UI theme mode.",
+          "enum": ["dark", "light"],
+          "maxLength": 10
+        },
+        "defaultView": {
+          "type": "string",
+          "description": "Preferred default workspace view on launch.",
+          "enum": ["dashboard", "hub", "health", "risk"],
+          "maxLength": 20
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when workspace was created."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp of the latest update."
+        }
+      },
+      "required": ["ownerId", "preferredTheme", "defaultView", "createdAt", "updatedAt"]
+    },
+    "UserPrivateProfile": {
+      "title": "UserPrivateProfile",
+      "description": "Isolated PII profile record strictly readable and writable only by the owner.",
+      "type": "object",
+      "properties": {
+        "ownerId": {
+          "type": "string",
+          "description": "Firebase Auth UID of the user.",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "Verified account email address.",
+          "maxLength": 254
+        },
+        "displayName": {
+          "type": "string",
+          "description": "User display name.",
+          "maxLength": 120
+        },
+        "photoURL": {
+          "type": "string",
+          "description": "User avatar image URL.",
+          "maxLength": 500
+        },
+        "lastLoginAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp of the latest sign-in."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when profile was created."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when profile was updated."
+        }
+      },
+      "required": ["ownerId", "email", "displayName", "photoURL", "lastLoginAt", "createdAt", "updatedAt"]
+    },
+    "StarredRepository": {
+      "title": "StarredRepository",
+      "description": "Cloud-synced pinned repository entry for quick switching.",
+      "type": "object",
+      "properties": {
+        "ownerId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "repoId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120
+        },
+        "source": {
+          "type": "string",
+          "enum": ["sample", "git", "zip"],
+          "maxLength": 16
+        },
+        "sourceRef": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 300
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["ownerId", "repoId", "name", "source", "sourceRef", "createdAt", "updatedAt"]
+    },
+    "SavedSnapshot": {
+      "title": "SavedSnapshot",
+      "description": "Saved health and risk summary snapshot bookmarked by the user.",
+      "type": "object",
+      "properties": {
+        "ownerId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "repoId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "repoName": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120
+        },
+        "source": {
+          "type": "string",
+          "enum": ["sample", "git", "zip"],
+          "maxLength": 16
+        },
+        "sourceRef": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 300
+        },
+        "healthScore": {
+          "type": "number"
+        },
+        "grade": {
+          "type": "string",
+          "enum": ["A", "B", "C", "D", "F"],
+          "maxLength": 2
+        },
+        "avgRisk": {
+          "type": "number"
+        },
+        "highRiskCount": {
+          "type": "number"
+        },
+        "totalFiles": {
+          "type": "number"
+        },
+        "totalLines": {
+          "type": "number"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "ownerId",
+        "repoId",
+        "repoName",
+        "source",
+        "sourceRef",
+        "healthScore",
+        "grade",
+        "avgRisk",
+        "highRiskCount",
+        "totalFiles",
+        "totalLines",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "UserNote": {
+      "title": "UserNote",
+      "description": "Personal action item or engineering note created by a user on their dashboard.",
+      "type": "object",
+      "properties": {
+        "ownerId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "repoName": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "status": {
+          "type": "string",
+          "enum": ["open", "done"],
+          "maxLength": 10
+        },
+        "priority": {
+          "type": "string",
+          "enum": ["high", "medium", "low"],
+          "maxLength": 10
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["ownerId", "repoName", "title", "status", "priority", "createdAt", "updatedAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserWorkspace" },
+      "description": "Root workspace preferences document per authenticated user (no PII)."
+    },
+    "/users/{userId}/private/profile": {
+      "schema": { "$ref": "#/entities/UserPrivateProfile" },
+      "description": "Strictly isolated PII profile document for the authenticated user."
+    },
+    "/users/{userId}/starredRepos/{starId}": {
+      "schema": { "$ref": "#/entities/StarredRepository" },
+      "description": "User's cloud-synced pinned repositories."
+    },
+    "/users/{userId}/snapshots/{snapshotId}": {
+      "schema": { "$ref": "#/entities/SavedSnapshot" },
+      "description": "User's saved project health and risk snapshots."
+    },
+    "/users/{userId}/notes/{noteId}": {
+      "schema": { "$ref": "#/entities/UserNote" },
+      "description": "User's personal follow-up tasks and notes."
+    }
+  }
+}

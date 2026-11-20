@@ -2,19 +2,19 @@ import React, { useMemo, useState } from 'react';
 import type { FileRiskScore, LangStat } from '../types';
 
 const LANG_COLORS: Record<string, string> = {
-  Python: '#3b82f6',
-  TypeScript: '#6366f1',
+  Python: '#0d9488',
+  TypeScript: '#14b8a6',
   JavaScript: '#f59e0b',
   Go: '#06b6d4',
-  Rust: '#f97316',
-  Java: '#ef4444',
-  CSS: '#14b8a6',
+  Rust: '#ea580c',
+  Java: '#e11d48',
+  CSS: '#10b981',
   HTML: '#f43f5e',
-  JSON: '#8b5cf6',
+  JSON: '#d97706',
   Markdown: '#64748b',
 };
 
-const FALLBACK_PALETTE = ['#3b82f6', '#6366f1', '#14b8a6', '#f59e0b', '#06b6d4', '#ec4899'];
+const FALLBACK_PALETTE = ['#0d9488', '#f59e0b', '#10b981', '#06b6d4', '#ea580c', '#f43f5e'];
 
 export function getLanguageColor(lang: string, idx = 0): string {
   return LANG_COLORS[lang] || FALLBACK_PALETTE[idx % FALLBACK_PALETTE.length];
@@ -74,7 +74,7 @@ export function LanguageSpectrumBar({
               onClick={() => onSelectLanguage?.(isSelected ? null : lang.language)}
               className={`inline-flex items-center gap-1.5 rounded px-1.5 py-0.5 text-left transition-colors ${
                 isSelected
-                  ? 'bg-blue-50 text-blue-700 dark:bg-blue-950/60 dark:text-blue-300'
+                  ? 'bg-teal-50 text-teal-700 dark:bg-teal-950/60 dark:text-teal-300'
                   : 'text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-100'
               }`}
             >
@@ -334,7 +334,7 @@ export function RiskScatterChart({
               <span className="truncate font-mono font-semibold text-slate-900 dark:text-white">
                 {hovered.path}
               </span>
-              <span className="shrink-0 font-mono tabular-nums text-blue-600 dark:text-blue-400">
+              <span className="shrink-0 font-mono tabular-nums text-teal-600 dark:text-teal-400">
                 Score {hovered.score}/100 · #{hovered.integratedRank}
               </span>
             </div>
@@ -488,7 +488,7 @@ export function DimensionRadarChart({
 
         <polygon
           points={polyPoints}
-          className="fill-blue-500/25 stroke-blue-600 dark:fill-indigo-500/25 dark:stroke-indigo-400"
+          className="fill-teal-500/25 stroke-teal-600 dark:fill-teal-400/20 dark:stroke-teal-400"
           strokeWidth={2}
         />
 
@@ -518,7 +518,7 @@ export function DimensionRadarChart({
                 textAnchor="middle"
                 dominantBaseline="middle"
                 className={`text-[9px] font-medium ${
-                  active ? 'fill-blue-600 dark:fill-blue-400' : 'fill-slate-600 dark:fill-slate-400'
+                  active ? 'fill-teal-600 dark:fill-teal-400' : 'fill-slate-600 dark:fill-slate-400'
                 }`}
               >
                 {d.name.split(' ')[0]} ({d.score})
@@ -527,7 +527,7 @@ export function DimensionRadarChart({
                 cx={val.x}
                 cy={val.y}
                 r={active ? 5 : 3.5}
-                className="fill-blue-600 dark:fill-indigo-400"
+                className="fill-teal-600 dark:fill-teal-400"
               />
             </g>
           );

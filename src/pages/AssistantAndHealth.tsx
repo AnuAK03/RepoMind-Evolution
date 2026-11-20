@@ -109,7 +109,7 @@ export function AssistantPage({
     {
       label: 'How did recent commits change links?',
       query: 'How have recent commits changed coupling and blast radius?',
-      accent: 'hover:border-indigo-500/60 hover:text-indigo-600 dark:hover:text-indigo-300',
+      accent: 'hover:border-teal-500/60 hover:text-teal-600 dark:hover:text-teal-300',
     },
   ];
 
@@ -122,7 +122,7 @@ export function AssistantPage({
           <select
             value={focusFile}
             onChange={(e) => setFocusFile(e.target.value)}
-            className="max-w-xs rounded-lg border border-slate-200 bg-white px-3 py-1.5 font-mono text-xs text-slate-900 shadow-xs focus:border-indigo-500 focus:outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
+            className="max-w-xs rounded-lg border border-slate-200 bg-white px-3 py-1.5 font-mono text-xs text-slate-900 shadow-xs focus:border-teal-500 focus:outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
           >
             <option value="">Auto-pick file</option>
             {files.map((f) => (
@@ -149,13 +149,13 @@ export function AssistantPage({
             onClick={() => sendQuestion(p.query)}
             className={`flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2 text-left text-xs font-medium text-slate-700 transition-colors disabled:opacity-50 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-200 ${p.accent}`}
           >
-            <Sparkles className="h-3.5 w-3.5 shrink-0 text-indigo-500" />
+            <Sparkles className="h-3.5 w-3.5 shrink-0 text-teal-500" />
             <span className="truncate">{p.label}</span>
           </button>
         ))}
       </div>
 
-      <Surface className="flex min-h-[26rem] flex-col justify-between border-t-2 border-t-indigo-500 p-5">
+      <Surface className="flex min-h-[26rem] flex-col justify-between border-t-2 border-t-teal-500 p-5">
         <div className="space-y-4 overflow-y-auto">
           {turns.length === 0 && (
             <div className="py-12 text-center text-xs text-slate-500 dark:text-slate-400">
@@ -168,7 +168,7 @@ export function AssistantPage({
               key={idx}
               className={`rounded-lg border p-4 ${
                 turn.role === 'user'
-                  ? 'border-blue-500/30 bg-blue-500/10'
+                  ? 'border-teal-500/30 bg-teal-500/10'
                   : 'border-slate-200 bg-slate-50/70 dark:border-slate-800 dark:bg-slate-950/70'
               }`}
             >
@@ -189,7 +189,7 @@ export function AssistantPage({
 
               {turn.meta && turn.meta.citations.length > 0 && (
                 <div className="mt-4 border-t border-slate-200 pt-3 dark:border-slate-800">
-                  <div className="text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+                  <div className="text-xs font-semibold text-teal-600 dark:text-teal-400">
                     Proof From Code ({turn.meta.citations.length})
                   </div>
                   <div className="mt-2 flex flex-wrap gap-1.5">
@@ -198,7 +198,7 @@ export function AssistantPage({
                         key={`${cit.path}:${cit.line}:${cIdx}`}
                         type="button"
                         onClick={() => onOpenFile(cit.path, cit.line)}
-                        className="rounded border border-slate-200 bg-white px-2 py-1 font-mono text-[11px] text-blue-600 transition-colors hover:border-blue-500 dark:border-slate-700 dark:bg-slate-900 dark:text-blue-400"
+                        className="rounded border border-slate-200 bg-white px-2 py-1 font-mono text-[11px] text-teal-600 transition-colors hover:border-teal-500 dark:border-slate-700 dark:bg-slate-900 dark:text-teal-400"
                       >
                         {cit.source} · {cit.path}:{cit.line}
                       </button>
@@ -224,12 +224,12 @@ export function AssistantPage({
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder="Ask about risky files, dependencies, security, or tests..."
-            className="flex-1 rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs text-slate-900 focus:border-indigo-500 focus:outline-none dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100"
+            className="flex-1 rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs text-slate-900 focus:border-teal-500 focus:outline-none dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100"
           />
           <button
             type="submit"
             disabled={loading || !input.trim()}
-            className="inline-flex items-center gap-1.5 rounded-lg bg-indigo-600 px-4 py-2 text-xs font-semibold text-white hover:bg-indigo-700 disabled:opacity-50"
+            className="inline-flex items-center gap-1.5 rounded-lg bg-teal-600 px-4 py-2 text-xs font-semibold text-white hover:bg-teal-700 disabled:opacity-50"
           >
             <Send className="h-3.5 w-3.5" />
             Ask
@@ -412,7 +412,7 @@ export function ContributorsPage({
                       <button
                         type="button"
                         onClick={() => onOpenFile(fc.path)}
-                        className="font-mono text-blue-600 hover:underline dark:text-blue-400"
+                        className="font-mono text-teal-600 hover:underline dark:text-teal-400"
                       >
                         {fc.path}
                       </button>
@@ -569,7 +569,7 @@ export function ProjectHealthPage({
       </Surface>
 
       <div className="grid gap-6 lg:grid-cols-2">
-        <Surface className="border-t-2 border-t-blue-500 p-5">
+        <Surface className="border-t-2 border-t-teal-500 p-5">
           <div className="flex flex-wrap items-center justify-between gap-2">
             <h3 className="font-display text-sm font-bold text-slate-950 dark:text-white">
               Folder Health
@@ -586,7 +586,7 @@ export function ProjectHealthPage({
                   onClick={() => setHeatmapSort(tab.id)}
                   className={`rounded-md px-2.5 py-1 text-[11px] font-semibold transition-colors ${
                     heatmapSort === tab.id
-                      ? 'bg-blue-600 text-white shadow-xs'
+                      ? 'bg-teal-600 text-white shadow-xs'
                       : 'text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-100'
                   }`}
                 >
@@ -670,7 +670,7 @@ export function ProjectHealthPage({
                   <button
                     type="button"
                     onClick={() => onOpenFile(act.target.split(':')[0])}
-                    className="font-mono font-medium text-blue-600 hover:underline dark:text-blue-400"
+                    className="font-mono font-medium text-teal-600 hover:underline dark:text-teal-400"
                   >
                     {act.target}
                   </button>

@@ -11,6 +11,7 @@ import {
   GitBranch,
   GitCompare,
   HeartPulse,
+  Home,
   LayoutDashboard,
   LogIn,
   Menu,
@@ -35,6 +36,7 @@ import {
 } from './components/StarredRepositoriesSection';
 import { ErrorBanner } from './components/UiPrimitives';
 import { useFirebase } from './contexts/FirebaseContext';
+import { OpeningPage } from './pages/OpeningPage';
 import { UserDashboardPage } from './pages/UserDashboardPage';
 import { ExplorerPage, RepositoryHubPage } from './pages/HubAndExplorer';
 import { ChangeImpactPage, GitEvolutionPage } from './pages/GitAndImpact';
@@ -68,12 +70,12 @@ interface NavGroup {
 const NAV_GROUPS: NavGroup[] = [
   {
     label: 'Account',
-    accent: 'bg-indigo-50 text-indigo-700 dark:bg-indigo-500/15 dark:text-indigo-300',
+    accent: 'bg-teal-50 text-teal-700 dark:bg-teal-500/15 dark:text-teal-300',
     items: [{ id: 'dashboard', label: 'My Dashboard', icon: LayoutDashboard }],
   },
   {
     label: 'Codebase',
-    accent: 'bg-blue-50 text-blue-700 dark:bg-blue-500/15 dark:text-blue-300',
+    accent: 'bg-emerald-50 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300',
     items: [
       { id: 'hub', label: 'Overview', icon: FolderGit2 },
       { id: 'explorer', label: 'Code Viewer', icon: FileCode2 },
@@ -100,7 +102,7 @@ const NAV_GROUPS: NavGroup[] = [
   },
   {
     label: 'Team & AI',
-    accent: 'bg-emerald-50 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300',
+    accent: 'bg-rose-50 text-rose-700 dark:bg-rose-500/15 dark:text-rose-300',
     items: [
       { id: 'health', label: 'Health Score', icon: HeartPulse },
       { id: 'contributors', label: 'Team Activity', icon: Users },
@@ -128,6 +130,7 @@ const VIEW_TITLES: Record<ViewId, string> = {
 };
 
 export default function App() {
+  const [showOpening, setShowOpening] = useState(true);
   const [activeView, setActiveView] = useState<ViewId>('hub');
   const [repositories, setRepositories] = useState<RepoMeta[]>([]);
   const [activeRepoId, setActiveRepoId] = useState<string | null>(null);
@@ -280,6 +283,7 @@ export default function App() {
     setNavHistory([]);
     setViewBreadcrumbs({});
     setShowIngest(false);
+    setShowOpening(false);
     setActiveView('hub');
   };
 
@@ -290,6 +294,7 @@ export default function App() {
     setNavHistory([]);
     setViewBreadcrumbs({});
     setShowIngest(false);
+    setShowOpening(false);
     setMobileMenuOpen(false);
   }, []);
 
@@ -327,6 +332,7 @@ export default function App() {
   );
 
   const selectView = (id: ViewId) => {
+    setShowOpening(false);
     if (id !== activeView) {
       pushHistoryAndNavigate(id);
     }
@@ -334,12 +340,33 @@ export default function App() {
     setQuickOpen(false);
   };
 
+  const enterWorkspaceFromOpening = useCallback(() => {
+    const preferred = workspace?.defaultView;
+    const nextView: ViewId =
+      preferred === 'dashboard' || preferred === 'hub' || ((preferred === 'health' || preferred === 'risk') && activeRepo)
+        ? preferred
+        : activeRepo
+        ? 'hub'
+        : 'hub';
+    setActiveView(nextView);
+    setShowOpening(false);
+  }, [workspace?.defaultView, activeRepo]);
+
   const selectOverviewRoot = useCallback(() => {
     setShowIngest(false);
+    setShowOpening(false);
     if (activeView !== 'hub') {
       pushHistoryAndNavigate('hub');
     }
   }, [activeView, pushHistoryAndNavigate]);
+
+  const toggleTheme = useCallback(() => {
+    const next = !darkMode;
+    setDarkMode(next);
+    if (user && workspaceReady) {
+      void updatePreferences({ preferredTheme: next ? 'dark' : 'light' });
+    }
+  }, [darkMode, user, workspaceReady, updatePreferences]);
 
   const breadcrumbCallbacks = useMemo(() => {
     const make = (view: ViewId) => (ctx: BreadcrumbContextUpdate) => {
@@ -379,24 +406,63 @@ export default function App() {
     return { matchedViews, matchedFiles };
   }, [quickQuery, repoFiles, activeRepo]);
 
+  if (showOpening) {
+    return (
+      <OpeningPage
+        darkMode={darkMode}
+        onToggleTheme={toggleTheme}
+        activeRepo={activeRepo}
+        repositories={repositories}
+        starredItems={starredItems}
+        onIngested={handleIngested}
+        onEnterWorkspace={enterWorkspaceFromOpening}
+        onOpenDashboard={() => {
+          setActiveView('dashboard');
+          setShowOpening(false);
+        }}
+        onSelectRepoAndEnter={(repoId) => {
+          handleSelectRepository(repoId);
+          setActiveView('hub');
+          setShowOpening(false);
+        }}
+      />
+    );
+  }
+
   const sidebarContent = (
     <div className="flex h-full flex-col justify-between p-3">
       <div className="space-y-5 overflow-y-auto">
-        <div className="flex items-center gap-2.5 px-2 pt-1">
-          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-indigo-600 to-blue-600 text-white shadow-sm">
-            <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2">
-              <circle cx="6" cy="6" r="2.5" />
-              <circle cx="18" cy="8" r="2.5" />
-              <circle cx="10" cy="18" r="2.5" />
-              <path d="M8 7.5L15.5 8M7 8.5L9.5 15.5M16.5 10L11.8 16" strokeLinecap="round" />
-            </svg>
-          </div>
-          <div className="min-w-0">
-            <div className="font-display text-sm font-bold tracking-tight text-slate-900 dark:text-slate-100 whitespace-nowrap">
-              RepoMind Evolution
+        <div className="flex items-center justify-between gap-2 px-2 pt-1">
+          <button
+            type="button"
+            onClick={() => setShowOpening(true)}
+            title="Return to Opening Page"
+            className="flex min-w-0 items-center gap-2.5 text-left group"
+          >
+            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-teal-600 to-emerald-600 text-white shadow-sm">
+              <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2">
+                <circle cx="6" cy="6" r="2.5" />
+                <circle cx="18" cy="8" r="2.5" />
+                <circle cx="10" cy="18" r="2.5" />
+                <path d="M8 7.5L15.5 8M7 8.5L9.5 15.5M16.5 10L11.8 16" strokeLinecap="round" />
+              </svg>
             </div>
-            <div className="text-[11px] text-slate-500 whitespace-nowrap">Change &amp; Risk Workbench</div>
-          </div>
+            <div className="min-w-0">
+              <div className="font-display text-sm font-bold tracking-tight text-slate-900 group-hover:text-teal-600 dark:text-slate-100 dark:group-hover:text-teal-400 whitespace-nowrap">
+                RepoMind Evolution
+              </div>
+              <div className="text-[11px] text-slate-500 whitespace-nowrap">Change &amp; Risk Workbench</div>
+            </div>
+          </button>
+          <button
+            type="button"
+            onClick={() => setShowOpening(true)}
+            title="Opening Page"
+            aria-label="Open home page"
+            className="rounded-md p-1 text-slate-400 hover:bg-slate-100 hover:text-teal-600 dark:hover:bg-slate-800 dark:hover:text-teal-400"
+          >
+            <Home className="h-3.5 w-3.5" />
+          </button>
         </div>
 
         <StarredRepositoriesSection
@@ -457,17 +523,17 @@ export default function App() {
   );
 
   return (
-    <div className="flex h-screen overflow-hidden bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100">
+    <div className="flex h-screen overflow-hidden bg-[#f6f8f7] text-slate-900 dark:bg-[#070b0d] dark:text-slate-100">
       {/* Desktop Sidebar */}
-      <aside className="hidden w-60 shrink-0 border-r border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900 lg:block">
+      <aside className="hidden w-60 shrink-0 border-r border-slate-200 bg-white dark:border-slate-800 dark:bg-[#0c1215] lg:block">
         {sidebarContent}
       </aside>
 
       {/* Mobile Sidebar Overlay */}
       {mobileMenuOpen && (
         <div className="fixed inset-0 z-40 flex lg:hidden">
-          <div className="fixed inset-0 bg-slate-900/50" onClick={() => setMobileMenuOpen(false)} />
-          <aside className="relative z-50 w-60 border-r border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900">
+          <div className="fixed inset-0 bg-slate-950/50" onClick={() => setMobileMenuOpen(false)} />
+          <aside className="relative z-50 w-60 border-r border-slate-200 bg-white dark:border-slate-800 dark:bg-[#0c1215]">
             <button
               type="button"
               onClick={() => setMobileMenuOpen(false)}
@@ -483,7 +549,7 @@ export default function App() {
 
       {/* Main Workspace */}
       <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
-        <header className="flex h-14 shrink-0 items-center justify-between gap-4 border-b border-slate-200 bg-white px-4 dark:border-slate-800 dark:bg-slate-900 lg:px-6">
+        <header className="flex h-14 shrink-0 items-center justify-between gap-4 border-b border-slate-200 bg-white px-4 dark:border-slate-800 dark:bg-[#0c1215] lg:px-6">
           <div className="flex min-w-0 items-center gap-3">
             <button
               type="button"
@@ -525,7 +591,7 @@ export default function App() {
                   aria-label="Select active repository"
                   value={activeRepoId || ''}
                   onChange={(e) => handleSelectRepository(e.target.value)}
-                  className="max-w-[180px] rounded-md border border-slate-200 bg-slate-50 px-2.5 py-1.5 font-mono text-xs text-slate-800 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-200"
+                  className="max-w-[180px] rounded-md border border-slate-200 bg-slate-50 px-2.5 py-1.5 font-mono text-xs text-slate-800 focus:border-teal-500 focus:outline-none dark:border-slate-700 dark:bg-slate-950 dark:text-slate-200"
                 >
                   {repositories.map((r) => (
                     <option key={r.id} value={r.id}>
@@ -553,13 +619,7 @@ export default function App() {
 
             <button
               type="button"
-              onClick={() => {
-                const next = !darkMode;
-                setDarkMode(next);
-                if (user && workspaceReady) {
-                  void updatePreferences({ preferredTheme: next ? 'dark' : 'light' });
-                }
-              }}
+              onClick={toggleTheme}
               aria-label="Toggle color theme"
               className="rounded-md border border-slate-200 p-1.5 text-slate-600 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
             >
@@ -572,7 +632,7 @@ export default function App() {
                 onClick={() => setExportOpen(true)}
                 className="inline-flex items-center gap-1.5 rounded-md border border-slate-200 bg-white px-2.5 py-1.5 text-xs font-medium text-slate-700 hover:border-slate-300 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800 whitespace-nowrap shrink-0"
               >
-                <Download className="h-3.5 w-3.5 text-blue-600 dark:text-blue-400" />
+                <Download className="h-3.5 w-3.5 text-teal-600 dark:text-teal-400" />
                 <span className="hidden sm:inline">Export Summary</span>
               </button>
             )}
@@ -583,7 +643,7 @@ export default function App() {
                 setShowIngest(true);
                 setActiveView('hub');
               }}
-              className="rounded-md bg-blue-600 px-3 py-1.5 text-xs font-medium text-white hover:bg-blue-700 whitespace-nowrap shrink-0"
+              className="rounded-md bg-teal-600 px-3 py-1.5 text-xs font-medium text-white hover:bg-teal-700 whitespace-nowrap shrink-0"
             >
               Add Repo
             </button>
@@ -595,7 +655,7 @@ export default function App() {
                 title="Open My Dashboard"
                 className={`inline-flex items-center gap-1.5 rounded-md border px-2 py-1 text-xs font-semibold transition-colors whitespace-nowrap shrink-0 ${
                   activeView === 'dashboard'
-                    ? 'border-indigo-500 bg-indigo-500/15 text-indigo-700 dark:text-indigo-300'
+                    ? 'border-teal-500 bg-teal-500/15 text-teal-700 dark:text-teal-300'
                     : 'border-slate-200 bg-white text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800'
                 }`}
               >
@@ -607,7 +667,7 @@ export default function App() {
                     className="h-5 w-5 rounded-full object-cover"
                   />
                 ) : (
-                  <span className="flex h-5 w-5 items-center justify-center rounded-full bg-indigo-600 text-[10px] font-bold text-white">
+                  <span className="flex h-5 w-5 items-center justify-center rounded-full bg-teal-600 text-[10px] font-bold text-white">
                     {(profile?.displayName || user.displayName || 'U').slice(0, 1).toUpperCase()}
                   </span>
                 )}
@@ -623,7 +683,7 @@ export default function App() {
                   const ok = await signInWithGoogle();
                   if (ok) selectView('dashboard');
                 }}
-                className="inline-flex items-center gap-1.5 rounded-md bg-indigo-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-indigo-700 disabled:opacity-50 whitespace-nowrap shrink-0"
+                className="inline-flex items-center gap-1.5 rounded-md bg-amber-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-amber-700 disabled:opacity-50 whitespace-nowrap shrink-0"
               >
                 <LogIn className="h-3.5 w-3.5" />
                 <span>{signingIn ? 'Signing in...' : 'Sign In'}</span>
@@ -645,7 +705,7 @@ export default function App() {
           onGoBack={handleGoBack}
         />
 
-        <main className="bg-workspace-mesh min-h-0 flex-1 overflow-y-auto bg-slate-50/70 p-4 dark:bg-[#070b14] lg:p-6">
+        <main className="bg-workspace-mesh min-h-0 flex-1 overflow-y-auto bg-[#f6f8f7]/80 p-4 dark:bg-[#070b0d] lg:p-6">
           <motion.div
             key={`${activeRepoId || 'none'}-${activeView}`}
             initial={{ opacity: 0, y: 4 }}
@@ -665,6 +725,7 @@ export default function App() {
                 onReloadStarred={handleReloadStarred}
                 onUnstar={unstarEntry}
                 onNavigateView={(v) => selectView(v)}
+                onOpenOpeningPage={() => setShowOpening(true)}
                 onThemeChange={(theme) => setDarkMode(theme === 'dark')}
                 onBreadcrumbChange={breadcrumbCallbacks.dashboard}
               />
@@ -806,7 +867,7 @@ export default function App() {
                     }}
                     className="flex w-full items-center gap-2 rounded px-2.5 py-1.5 text-left text-xs text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800"
                   >
-                    <Download className="h-3.5 w-3.5 text-blue-600 dark:text-blue-400" />
+                    <Download className="h-3.5 w-3.5 text-teal-600 dark:text-teal-400" />
                     <span>Export Stakeholder Summary (PDF / Markdown)</span>
                   </button>
                 </div>
@@ -850,7 +911,7 @@ export default function App() {
                           <button
                             type="button"
                             onClick={() => handleAnalyzeImpact(f.path)}
-                            className="text-[11px] text-blue-600 hover:underline dark:text-blue-400"
+                            className="text-[11px] text-teal-600 hover:underline dark:text-teal-400"
                           >
                             Impact
                           </button>

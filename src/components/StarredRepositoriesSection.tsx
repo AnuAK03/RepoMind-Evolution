@@ -281,7 +281,7 @@ export function StarredRepositoriesSection({
 
                 <div className="flex shrink-0 items-center gap-0.5">
                   {isReloading ? (
-                    <Loader2 className="h-3 w-3 animate-spin text-blue-600" />
+                    <Loader2 className="h-3 w-3 animate-spin text-teal-600" />
                   ) : (
                     !item.liveRepo &&
                     canReload && (
@@ -290,7 +290,7 @@ export function StarredRepositoriesSection({
                         onClick={() => onReloadStarred(item)}
                         title={`Re-clone ${item.name}`}
                         aria-label={`Re-clone ${item.name}`}
-                        className="rounded p-1 text-slate-400 hover:bg-slate-200/70 hover:text-blue-600 dark:hover:bg-slate-700 dark:hover:text-blue-400"
+                        className="rounded p-1 text-slate-400 hover:bg-slate-200/70 hover:text-teal-600 dark:hover:bg-slate-700 dark:hover:text-teal-400"
                       >
                         <RotateCw className="h-3 w-3" />
                       </button>

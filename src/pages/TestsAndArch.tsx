@@ -108,7 +108,7 @@ export function TestImpactPage({
           <select
             value={target}
             onChange={(e) => setTarget(e.target.value)}
-            className="max-w-xs rounded-lg border border-slate-200 bg-white px-3 py-1.5 font-mono text-xs text-slate-900 shadow-xs focus:border-blue-500 focus:outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
+              className="max-w-xs rounded-lg border border-slate-200 bg-white px-3 py-1.5 font-mono text-xs text-slate-900 shadow-xs focus:border-teal-500 focus:outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
           >
             {sourceFiles.map((f) => (
               <option key={f.path} value={f.path}>
@@ -120,7 +120,7 @@ export function TestImpactPage({
       />
 
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-5">
-        <Surface className="border-t-2 border-t-blue-500 p-4">
+        <Surface className="border-t-2 border-t-teal-500 p-4">
           <div className="text-xs font-medium text-slate-500 dark:text-slate-400">Test Suites</div>
           <div className="mt-1 font-display text-2xl font-bold tabular-nums text-slate-950 dark:text-white">
             {data.testFiles.length} / {data.totalCases}
@@ -138,9 +138,9 @@ export function TestImpactPage({
             {data.untestedModules.length} untested files
           </div>
         </Surface>
-        <Surface className="border-t-2 border-t-indigo-500 p-4">
+        <Surface className="border-t-2 border-t-amber-500 p-4">
           <div className="text-xs font-medium text-slate-500 dark:text-slate-400">Targeted Tests</div>
-          <div className="mt-1 font-display text-2xl font-bold tabular-nums text-indigo-600 dark:text-indigo-400">
+          <div className="mt-1 font-display text-2xl font-bold tabular-nums text-amber-600 dark:text-amber-400">
             {data.recommendedTestsCount}
           </div>
           <div className="mt-1 text-[11px] text-slate-500 dark:text-slate-400">
@@ -154,7 +154,7 @@ export function TestImpactPage({
           </div>
           <div className="mt-1 text-[11px] text-slate-500 dark:text-slate-400">Skipped tests</div>
         </Surface>
-        <Surface className="border-t-2 border-t-amber-500 p-4">
+        <Surface className="border-t-2 border-t-slate-400 p-4 dark:border-t-slate-600">
           <div className="text-xs font-medium text-slate-500 dark:text-slate-400">Run Mode</div>
           <div className="mt-1 font-display text-base font-bold text-slate-950 dark:text-white">
             Static Scan
@@ -164,10 +164,10 @@ export function TestImpactPage({
       </div>
 
       <div className="grid gap-6 lg:grid-cols-2">
-        <Surface className="border-t-2 border-t-blue-500 p-5">
+        <Surface className="border-t-2 border-t-teal-500 p-5">
           <h3 className="font-display text-sm font-bold text-slate-950 dark:text-white">
             Run These Tests{' '}
-            <span className="ml-1 font-mono text-xs font-semibold text-blue-600 dark:text-blue-400">
+            <span className="ml-1 font-mono text-xs font-semibold text-teal-600 dark:text-teal-400">
               {data.selectedTarget || 'target'}
             </span>
           </h3>
@@ -180,17 +180,17 @@ export function TestImpactPage({
               {data.recommendations.map((rec) => (
                 <div
                   key={rec.testPath}
-                  className="rounded-lg border border-slate-200 bg-slate-50/60 p-3 transition-colors hover:border-blue-400 dark:border-slate-800 dark:bg-slate-950/60 dark:hover:border-blue-500/60"
+                  className="rounded-lg border border-slate-200 bg-slate-50/60 p-3 transition-colors hover:border-teal-400 dark:border-slate-800 dark:bg-slate-950/60 dark:hover:border-teal-500/60"
                 >
                   <div className="flex items-center justify-between gap-2">
                     <div className="flex items-center gap-2 min-w-0">
-                      <span className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded bg-blue-600/15 font-mono text-[11px] font-bold text-blue-600 dark:bg-blue-500/20 dark:text-blue-300">
+                      <span className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded bg-teal-600/15 font-mono text-[11px] font-bold text-teal-700 dark:bg-teal-500/20 dark:text-teal-300">
                         {rec.rank}
                       </span>
                       <button
                         type="button"
                         onClick={() => onOpenFile(rec.testPath)}
-                        className="truncate font-mono text-xs font-semibold text-blue-600 hover:underline dark:text-blue-400"
+                        className="truncate font-mono text-xs font-semibold text-teal-600 hover:underline dark:text-teal-400"
                       >
                         {rec.testPath}
                       </button>
@@ -251,7 +251,7 @@ export function TestImpactPage({
                         <button
                           type="button"
                           onClick={() => onOpenFile(u.path)}
-                          className="font-mono text-blue-600 hover:underline dark:text-blue-400"
+                          className="font-mono text-teal-600 hover:underline dark:text-teal-400"
                         >
                           {u.path}
                         </button>
@@ -448,18 +448,18 @@ export function ArchitectureEvolutionPage({
       />
 
       <div className="grid gap-6 lg:grid-cols-12">
-        <Surface className="border-t-2 border-t-indigo-500 p-5 lg:col-span-8">
+        <Surface className="border-t-2 border-t-teal-500 p-5 lg:col-span-8">
           <div className="flex flex-wrap items-center justify-between gap-2 text-xs">
             <h3 className="font-display text-sm font-bold text-slate-950 dark:text-white">
               File Connections ({diagram.nodes.length} files · {diagram.edges.length} links)
             </h3>
             <div className="flex items-center gap-3 text-[11px] font-medium text-slate-500 dark:text-slate-400">
               <span className="inline-flex items-center gap-1.5">
-                <span className="h-2.5 w-2.5 rounded-sm bg-indigo-500" />
+                <span className="h-2.5 w-2.5 rounded-sm bg-amber-500" />
                 Hub
               </span>
               <span className="inline-flex items-center gap-1.5">
-                <span className="h-2.5 w-2.5 rounded-sm bg-cyan-500" />
+                <span className="h-2.5 w-2.5 rounded-sm bg-teal-500" />
                 File
               </span>
               <span className="inline-flex items-center gap-1.5">
@@ -479,7 +479,7 @@ export function ArchitectureEvolutionPage({
                   <path d="M 0 1 L 10 5 L 0 9 z" fill="#64748b" />
                 </marker>
                 <marker id="arrow-active" viewBox="0 0 10 10" refX="16" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse">
-                  <path d="M 0 1 L 10 5 L 0 9 z" fill="#6366f1" />
+                  <path d="M 0 1 L 10 5 L 0 9 z" fill="#14b8a6" />
                 </marker>
                 <marker id="arrow-cycle" viewBox="0 0 10 10" refX="16" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse">
                   <path d="M 0 1 L 10 5 L 0 9 z" fill="#f43f5e" />
@@ -487,7 +487,7 @@ export function ArchitectureEvolutionPage({
               </defs>
               {diagram.edges.map((e, i) => {
                 const highlighted = activeFocusNode === e.source.id || activeFocusNode === e.target.id;
-                const stroke = e.inCycle ? '#f43f5e' : highlighted ? '#6366f1' : '#94a3b8';
+                const stroke = e.inCycle ? '#f43f5e' : highlighted ? '#14b8a6' : '#94a3b8';
                 const marker = e.inCycle
                   ? 'url(#arrow-cycle)'
                   : highlighted
@@ -513,7 +513,7 @@ export function ArchitectureEvolutionPage({
                 const isSel = selectedNode === n.id;
                 const isHover = hoveredNode === n.id;
                 const isHub = n.fanIn >= 3;
-                const fill = n.isTest ? '#10b981' : isHub ? '#6366f1' : '#06b6d4';
+                const fill = n.isTest ? '#10b981' : isHub ? '#f59e0b' : '#14b8a6';
                 const radius = isSel || isHover ? 12 : Math.min(10.5, 5.5 + n.fanIn);
                 const label = n.path.split('/').pop() || n.path;
                 return (
@@ -538,7 +538,7 @@ export function ArchitectureEvolutionPage({
                       cy={n.y}
                       r={radius}
                       fill={fill}
-                      stroke={isSel ? '#f59e0b' : isHover ? '#38bdf8' : '#ffffff'}
+                      stroke={isSel ? '#f59e0b' : isHover ? '#2dd4bf' : '#ffffff'}
                       strokeWidth={isSel || isHover ? 2.5 : 1.5}
                     />
                     <text
@@ -560,7 +560,7 @@ export function ArchitectureEvolutionPage({
           </div>
           <div className="mt-2.5 flex flex-wrap items-center justify-between gap-2 text-[11px] text-slate-500 dark:text-slate-400">
             {hoveredInfo ? (
-              <span className="font-mono text-indigo-600 dark:text-indigo-300">
+              <span className="font-mono text-teal-600 dark:text-teal-300">
                 {hoveredInfo.path} · {hoveredInfo.fanIn} incoming · {hoveredInfo.fanOut} outgoing
               </span>
             ) : (
@@ -570,7 +570,7 @@ export function ArchitectureEvolutionPage({
               <button
                 type="button"
                 onClick={() => setSelectedNode(null)}
-                className="font-semibold text-blue-600 hover:underline dark:text-blue-400"
+                className="font-semibold text-teal-600 hover:underline dark:text-teal-400"
               >
                 Show all files
               </button>
@@ -578,7 +578,7 @@ export function ArchitectureEvolutionPage({
           </div>
         </Surface>
 
-        <Surface className="border-t-2 border-t-cyan-500 p-5 lg:col-span-4">
+        <Surface className="border-t-2 border-t-amber-500 p-5 lg:col-span-4">
           {selectedNode ? (
             <div className="space-y-4">
               <div className="flex items-start justify-between gap-2 border-b border-slate-200 pb-3 dark:border-slate-800">
@@ -587,7 +587,7 @@ export function ArchitectureEvolutionPage({
                   <button
                     type="button"
                     onClick={() => onOpenFile(selectedNode)}
-                    className="mt-0.5 flex items-center gap-1 break-all text-left font-mono text-xs font-semibold text-blue-600 hover:underline dark:text-blue-400"
+                    className="mt-0.5 flex items-center gap-1 break-all text-left font-mono text-xs font-semibold text-teal-600 hover:underline dark:text-teal-400"
                   >
                     <span>{selectedNode}</span>
                     <ExternalLink className="h-3 w-3 shrink-0" />
@@ -602,7 +602,7 @@ export function ArchitectureEvolutionPage({
                 </button>
               </div>
               <div>
-                <div className="text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+                <div className="text-xs font-semibold text-amber-600 dark:text-amber-400">
                   Files Using This ({selectedNodeEdges.incoming.length})
                 </div>
                 <div className="mt-1.5 space-y-1 font-mono text-[11px] text-slate-600 dark:text-slate-400">
@@ -611,7 +611,7 @@ export function ArchitectureEvolutionPage({
                       key={p}
                       type="button"
                       onClick={() => setSelectedNode(p)}
-                      className="block w-full truncate text-left hover:text-blue-600 dark:hover:text-blue-400"
+                      className="block w-full truncate text-left hover:text-teal-600 dark:hover:text-teal-400"
                     >
                       ← {p}
                     </button>
@@ -620,7 +620,7 @@ export function ArchitectureEvolutionPage({
                 </div>
               </div>
               <div>
-                <div className="text-xs font-semibold text-cyan-600 dark:text-cyan-400">
+                <div className="text-xs font-semibold text-teal-600 dark:text-teal-400">
                   Files This Uses ({selectedNodeEdges.outgoing.length})
                 </div>
                 <div className="mt-1.5 space-y-1 font-mono text-[11px] text-slate-600 dark:text-slate-400">
@@ -629,7 +629,7 @@ export function ArchitectureEvolutionPage({
                       key={p}
                       type="button"
                       onClick={() => setSelectedNode(p)}
-                      className="block w-full truncate text-left hover:text-blue-600 dark:hover:text-blue-400"
+                      className="block w-full truncate text-left hover:text-teal-600 dark:hover:text-teal-400"
                     >
                       → {p}
                     </button>
@@ -650,7 +650,7 @@ export function ArchitectureEvolutionPage({
               </ul>
 
               <div className="border-t border-slate-200 pt-3 dark:border-slate-800">
-                <div className="text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+                <div className="text-xs font-semibold text-amber-600 dark:text-amber-400">
                   Core Files
                 </div>
                 <div className="mt-2 space-y-1.5">
@@ -664,7 +664,7 @@ export function ArchitectureEvolutionPage({
                       <button
                         type="button"
                         onClick={() => setSelectedNode(h.id)}
-                        className="truncate font-mono font-medium text-blue-600 hover:underline dark:text-blue-400"
+                        className="truncate font-mono font-medium text-teal-600 hover:underline dark:text-teal-400"
                       >
                         {h.path}
                       </button>
@@ -676,7 +676,7 @@ export function ArchitectureEvolutionPage({
                           type="button"
                           onClick={() => onOpenFile(h.path)}
                           title="Open code"
-                          className="text-slate-400 hover:text-blue-500"
+                          className="text-slate-400 hover:text-teal-500"
                         >
                           <ExternalLink className="h-3 w-3" />
                         </button>
@@ -711,11 +711,11 @@ export function ArchitectureEvolutionPage({
       </div>
 
       {git?.available && git.commits.length >= 2 && (
-        <Surface className="border-t-2 border-t-blue-500 p-5">
+        <Surface className="border-t-2 border-t-teal-500 p-5">
           <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 pb-4 dark:border-slate-800">
             <div>
               <h3 className="flex items-center gap-2 font-display text-sm font-bold text-slate-950 dark:text-white">
-                <GitCompare className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+                <GitCompare className="h-4 w-4 text-teal-600 dark:text-teal-400" />
                 Compare Old vs. New Map
               </h3>
               <p className="mt-0.5 text-xs text-slate-500 dark:text-slate-400">
@@ -750,7 +750,7 @@ export function ArchitectureEvolutionPage({
                 type="button"
                 onClick={compareSnapshots}
                 disabled={evoLoading}
-                className="rounded-lg bg-blue-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-blue-700 disabled:opacity-50"
+                className="rounded-lg bg-teal-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-teal-700 disabled:opacity-50"
               >
                 {evoLoading ? 'Comparing...' : 'Compare Now'}
               </button>
@@ -761,13 +761,13 @@ export function ArchitectureEvolutionPage({
             <div className="mt-4 space-y-4">
               <p className="text-xs font-medium text-slate-800 dark:text-slate-200">{evo.summary}</p>
               <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
-                <div className="rounded-lg border border-slate-200 border-t-2 border-t-blue-500 p-3 dark:border-slate-800">
+                <div className="rounded-lg border border-slate-200 border-t-2 border-t-teal-500 p-3 dark:border-slate-800">
                   <div className="text-[11px] text-slate-500">Files</div>
                   <div className="font-mono text-sm font-semibold tabular-nums">
                     {evo.baseStats.nodes} → {evo.headStats.nodes}
                   </div>
                 </div>
-                <div className="rounded-lg border border-slate-200 border-t-2 border-t-indigo-500 p-3 dark:border-slate-800">
+                <div className="rounded-lg border border-slate-200 border-t-2 border-t-amber-500 p-3 dark:border-slate-800">
                   <div className="text-[11px] text-slate-500">Links</div>
                   <div className="font-mono text-sm font-semibold tabular-nums">
                     {evo.baseStats.edges} → {evo.headStats.edges}

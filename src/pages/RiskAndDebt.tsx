@@ -104,7 +104,7 @@ export function RiskIntelligencePage({
             type="button"
             onClick={() => setCategoryFilter('all')}
             className={`p-4 text-left transition-colors ${
-              categoryFilter === 'all' ? 'bg-blue-50/70 dark:bg-blue-950/30' : 'hover:bg-slate-50 dark:hover:bg-slate-800/40'
+              categoryFilter === 'all' ? 'bg-teal-50/70 dark:bg-teal-950/30' : 'hover:bg-slate-50 dark:hover:bg-slate-800/40'
             }`}
           >
             <div className="text-xs text-slate-500">Average Score</div>
@@ -165,7 +165,7 @@ export function RiskIntelligencePage({
         </div>
         <div className="border-t border-slate-200 bg-slate-50/70 px-4 py-3 text-xs dark:border-slate-800 dark:bg-slate-950/50">
           <span className="font-semibold text-slate-800 dark:text-slate-200">How it scores: </span>
-          <span className="font-mono text-[11px] text-indigo-700 dark:text-indigo-400">
+          <span className="font-mono text-[11px] text-teal-700 dark:text-teal-400">
             {data.formulaDescription}
           </span>
         </div>
@@ -226,7 +226,7 @@ export function RiskIntelligencePage({
                       onClick={() => setSelected(f)}
                       className={`cursor-pointer transition-colors ${
                         active
-                          ? 'bg-blue-50/70 dark:bg-blue-950/40'
+                          ? 'bg-teal-50/70 dark:bg-teal-950/40'
                           : 'hover:bg-slate-50 dark:hover:bg-slate-800/50'
                       }`}
                     >
@@ -254,14 +254,14 @@ export function RiskIntelligencePage({
 
         <div className="space-y-6 lg:col-span-5">
           {selected && (
-            <Surface className="border-t-2 border-t-blue-500 p-5">
+            <Surface className="border-t-2 border-t-teal-500 p-5">
               <div className="flex items-start justify-between gap-2">
                 <div>
                   <div className="text-xs text-slate-500">Why It's Risky</div>
                   <button
                     type="button"
                     onClick={() => onOpenFile(selected.path)}
-                    className="mt-0.5 font-mono text-sm font-semibold text-blue-600 hover:underline dark:text-blue-400"
+                    className="mt-0.5 font-mono text-sm font-semibold text-teal-600 hover:underline dark:text-teal-400"
                   >
                     {selected.path}
                   </button>
@@ -282,7 +282,7 @@ export function RiskIntelligencePage({
                       ? 'bg-rose-500'
                       : fac.normalized >= 40
                       ? 'bg-amber-500'
-                      : 'bg-blue-500';
+                      : 'bg-teal-500';
                   return (
                     <div key={fac.name}>
                       <div className="flex items-center justify-between text-xs">
@@ -320,7 +320,7 @@ export function RiskIntelligencePage({
                   onClick={() => setSearch(d.directory === 'root' ? '' : d.directory)}
                   className="flex w-full items-center justify-between rounded px-2 py-1 text-left text-xs transition-colors hover:bg-slate-100 dark:hover:bg-slate-800/70"
                 >
-                  <span className="font-mono text-blue-600 dark:text-blue-400">{d.directory}</span>
+                  <span className="font-mono text-teal-600 dark:text-teal-400">{d.directory}</span>
                   <span className="font-mono tabular-nums text-slate-500">
                     avg {d.avgRisk} · max {d.maxRisk} ({d.fileCount} files)
                   </span>
@@ -432,9 +432,9 @@ export function TechnicalDebtPage({
       />
 
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-5">
-        <Surface className="border-t-2 border-t-blue-500 p-4">
+        <Surface className="border-t-2 border-t-teal-500 p-4">
           <div className="text-xs text-slate-500">All Issues</div>
-          <div className="mt-1 font-mono text-2xl font-bold tabular-nums text-blue-600 dark:text-blue-400">
+          <div className="mt-1 font-mono text-2xl font-bold tabular-nums text-teal-600 dark:text-teal-400">
             {data.totalFindings}
           </div>
         </Surface>
@@ -540,7 +540,7 @@ export function TechnicalDebtPage({
                   <button
                     type="button"
                     onClick={() => onOpenFile(item.path, item.line)}
-                    className="font-mono text-xs text-blue-600 hover:underline dark:text-blue-400"
+                    className="font-mono text-xs text-teal-600 hover:underline dark:text-teal-400"
                   >
                     {item.path}:{item.line}
                   </button>

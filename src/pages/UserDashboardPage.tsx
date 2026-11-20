@@ -1,11 +1,15 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import {
+  Activity,
+  ArrowRight,
   BookmarkCheck,
   CheckCircle2,
   Circle,
+  FileCode2,
   FolderGit2,
   GitBranch,
   HeartPulse,
+  Home,
   Loader2,
   LogIn,
   LogOut,
@@ -35,6 +39,7 @@ export function UserDashboardPage({
   onReloadStarred,
   onUnstar,
   onNavigateView,
+  onOpenOpeningPage,
   onThemeChange,
   onBreadcrumbChange,
 }: {
@@ -46,6 +51,7 @@ export function UserDashboardPage({
   onReloadStarred: (entry: StarredRepoEntry) => void;
   onUnstar: (entry: StarredRepoEntry) => void;
   onNavigateView: (view: 'hub' | 'health' | 'risk' | 'explorer') => void;
+  onOpenOpeningPage?: () => void;
   onThemeChange: (theme: 'dark' | 'light') => void;
   onBreadcrumbChange?: (ctx: BreadcrumbContextUpdate) => void;
 }) {
@@ -173,14 +179,26 @@ export function UserDashboardPage({
         <SectionHeader
           title="My Dashboard"
           description="Sign in to save your starred projects, health snapshots, and fix checklists."
+          actions={
+            onOpenOpeningPage ? (
+              <button
+                type="button"
+                onClick={onOpenOpeningPage}
+                className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800"
+              >
+                <Home className="h-3.5 w-3.5 text-teal-600 dark:text-teal-400" />
+                Opening Page
+              </button>
+            ) : undefined
+          }
         />
 
         {authError && <ErrorBanner message={authError} />}
 
-        <Surface className="overflow-hidden border-t-2 border-t-indigo-500 p-6 sm:p-8">
+        <Surface className="overflow-hidden border-t-2 border-t-teal-500 p-6 sm:p-8">
           <div className="grid items-center gap-8 lg:grid-cols-12">
             <div className="space-y-4 lg:col-span-7">
-              <div className="inline-flex items-center gap-2 text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+              <div className="inline-flex items-center gap-2 text-xs font-semibold text-teal-700 dark:text-teal-400">
                 <ShieldCheck className="h-4 w-4" />
                 <span>Personal Workspace Account</span>
               </div>
@@ -195,7 +213,7 @@ export function UserDashboardPage({
                   type="button"
                   onClick={() => void signInWithGoogle()}
                   disabled={signingIn}
-                  className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-indigo-600 to-blue-600 px-5 py-2.5 text-xs font-semibold text-white shadow-md hover:from-indigo-500 hover:to-blue-500 disabled:opacity-50"
+                  className="inline-flex items-center gap-2 rounded-lg bg-teal-600 px-5 py-2.5 text-xs font-semibold text-white shadow-xs transition-colors hover:bg-teal-700 disabled:opacity-50"
                 >
                   {signingIn ? <Loader2 className="h-4 w-4 animate-spin" /> : <LogIn className="h-4 w-4" />}
                   {signingIn ? 'Signing in...' : 'Sign in with Google'}
@@ -262,12 +280,22 @@ export function UserDashboardPage({
         description="Your account, saved project snapshots, pinned repos, and fix checklist."
         actions={
           <div className="flex flex-wrap items-center gap-2">
+            {onOpenOpeningPage && (
+              <button
+                type="button"
+                onClick={onOpenOpeningPage}
+                className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800"
+              >
+                <Home className="h-3.5 w-3.5 text-teal-600 dark:text-teal-400" />
+                Home
+              </button>
+            )}
             {activeRepo && (
               <button
                 type="button"
                 onClick={handleSaveCurrentSnapshot}
                 disabled={savingSnap}
-                className="inline-flex items-center gap-1.5 rounded-lg bg-emerald-600 px-3 py-1.5 text-xs font-semibold text-white shadow-xs hover:bg-emerald-700 disabled:opacity-50"
+                className="inline-flex items-center gap-1.5 rounded-lg bg-teal-600 px-3 py-1.5 text-xs font-semibold text-white shadow-xs hover:bg-teal-700 disabled:opacity-50"
               >
                 {savingSnap ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <BookmarkCheck className="h-3.5 w-3.5" />}
                 {savingSnap ? 'Saving...' : `Save ${activeRepo.name} Snapshot`}
@@ -293,7 +321,7 @@ export function UserDashboardPage({
       )}
 
       {/* User Account Banner */}
-      <Surface className="border-t-2 border-t-indigo-500 p-5">
+      <Surface className="border-t-2 border-t-teal-500 p-5">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div className="flex items-center gap-3.5">
             {photoURL ? (
@@ -301,10 +329,10 @@ export function UserDashboardPage({
                 src={photoURL}
                 alt={displayName}
                 referrerPolicy="no-referrer"
-                className="h-12 w-12 rounded-full border-2 border-indigo-500 object-cover"
+                className="h-12 w-12 rounded-full border-2 border-teal-500 object-cover"
               />
             ) : (
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-indigo-600 font-display text-sm font-bold text-white">
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-teal-600 font-display text-sm font-bold text-white">
                 {initials || 'U'}
               </div>
             )}
@@ -326,7 +354,7 @@ export function UserDashboardPage({
                   onThemeChange(next);
                   void updatePreferences({ preferredTheme: next });
                 }}
-                className="rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-1 text-xs font-semibold dark:border-slate-700 dark:bg-slate-950"
+                className="rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-1 text-xs font-semibold focus:border-teal-500 focus:outline-none dark:border-slate-700 dark:bg-slate-950"
               >
                 <option value="dark">Dark</option>
                 <option value="light">Light</option>
@@ -341,7 +369,7 @@ export function UserDashboardPage({
                   const next = e.target.value as 'dashboard' | 'hub' | 'health' | 'risk';
                   void updatePreferences({ defaultView: next });
                 }}
-                className="rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-1 text-xs font-semibold dark:border-slate-700 dark:bg-slate-950"
+                className="rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-1 text-xs font-semibold focus:border-teal-500 focus:outline-none dark:border-slate-700 dark:bg-slate-950"
               >
                 <option value="dashboard">My Dashboard</option>
                 <option value="hub">Overview</option>
@@ -353,6 +381,72 @@ export function UserDashboardPage({
         </div>
       </Surface>
 
+      {/* Quick Workspace Jumps */}
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+        <button
+          type="button"
+          onClick={() => onNavigateView('hub')}
+          className="flex items-center justify-between rounded-lg border border-slate-200 bg-white px-4 py-3 text-left transition-colors hover:border-teal-500 dark:border-slate-800 dark:bg-[#0e1418] dark:hover:border-teal-500"
+        >
+          <div className="flex items-center gap-2.5">
+            <FolderGit2 className="h-4 w-4 text-teal-600 dark:text-teal-400" />
+            <div>
+              <div className="text-xs font-semibold text-slate-900 dark:text-white">Overview</div>
+              <div className="text-[11px] text-slate-500">{activeRepo ? activeRepo.name : 'Add repo'}</div>
+            </div>
+          </div>
+          <ArrowRight className="h-3.5 w-3.5 text-slate-400" />
+        </button>
+
+        <button
+          type="button"
+          disabled={!activeRepo}
+          onClick={() => onNavigateView('risk')}
+          className="flex items-center justify-between rounded-lg border border-slate-200 bg-white px-4 py-3 text-left transition-colors hover:border-rose-500 disabled:opacity-50 dark:border-slate-800 dark:bg-[#0e1418] dark:hover:border-rose-500"
+        >
+          <div className="flex items-center gap-2.5">
+            <Activity className="h-4 w-4 text-rose-600 dark:text-rose-400" />
+            <div>
+              <div className="text-xs font-semibold text-slate-900 dark:text-white">Risk Check</div>
+              <div className="text-[11px] text-slate-500">Hotspot ranking</div>
+            </div>
+          </div>
+          <ArrowRight className="h-3.5 w-3.5 text-slate-400" />
+        </button>
+
+        <button
+          type="button"
+          disabled={!activeRepo}
+          onClick={() => onNavigateView('health')}
+          className="flex items-center justify-between rounded-lg border border-slate-200 bg-white px-4 py-3 text-left transition-colors hover:border-emerald-500 disabled:opacity-50 dark:border-slate-800 dark:bg-[#0e1418] dark:hover:border-emerald-500"
+        >
+          <div className="flex items-center gap-2.5">
+            <HeartPulse className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+            <div>
+              <div className="text-xs font-semibold text-slate-900 dark:text-white">Health Score</div>
+              <div className="text-[11px] text-slate-500">Grades &amp; fixes</div>
+            </div>
+          </div>
+          <ArrowRight className="h-3.5 w-3.5 text-slate-400" />
+        </button>
+
+        <button
+          type="button"
+          disabled={!activeRepo}
+          onClick={() => onNavigateView('explorer')}
+          className="flex items-center justify-between rounded-lg border border-slate-200 bg-white px-4 py-3 text-left transition-colors hover:border-amber-500 disabled:opacity-50 dark:border-slate-800 dark:bg-[#0e1418] dark:hover:border-amber-500"
+        >
+          <div className="flex items-center gap-2.5">
+            <FileCode2 className="h-4 w-4 text-amber-600 dark:text-amber-400" />
+            <div>
+              <div className="text-xs font-semibold text-slate-900 dark:text-white">Code Viewer</div>
+              <div className="text-[11px] text-slate-500">Inspect source</div>
+            </div>
+          </div>
+          <ArrowRight className="h-3.5 w-3.5 text-slate-400" />
+        </button>
+      </div>
+
       {/* Account KPIs */}
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
         <Surface className="border-t-2 border-t-amber-500 p-4">
@@ -362,9 +456,9 @@ export function UserDashboardPage({
           </div>
           <div className="mt-1 text-[11px] text-slate-500 dark:text-slate-400">Synced to your account</div>
         </Surface>
-        <Surface className="border-t-2 border-t-emerald-500 p-4">
+        <Surface className="border-t-2 border-t-teal-500 p-4">
           <div className="text-xs font-medium text-slate-500 dark:text-slate-400">Saved Snapshots</div>
-          <div className="mt-1 font-display text-2xl font-bold tabular-nums text-emerald-600 dark:text-emerald-400">
+          <div className="mt-1 font-display text-2xl font-bold tabular-nums text-teal-600 dark:text-teal-400">
             {snapshots.length}
           </div>
           <div className="mt-1 text-[11px] text-slate-500 dark:text-slate-400">Health &amp; risk checkpoints</div>
@@ -378,9 +472,9 @@ export function UserDashboardPage({
             {notes.length} total checklist items
           </div>
         </Surface>
-        <Surface className="border-t-2 border-t-blue-500 p-4">
+        <Surface className="border-t-2 border-t-emerald-500 p-4">
           <div className="text-xs font-medium text-slate-500 dark:text-slate-400">Avg Health Score</div>
-          <div className="mt-1 font-display text-2xl font-bold tabular-nums text-blue-600 dark:text-blue-400">
+          <div className="mt-1 font-display text-2xl font-bold tabular-nums text-emerald-600 dark:text-emerald-400">
             {avgSavedHealth !== null ? `${avgSavedHealth}/100` : '—'}
           </div>
           <div className="mt-1 text-[11px] text-slate-500 dark:text-slate-400">Across saved snapshots</div>
@@ -390,7 +484,7 @@ export function UserDashboardPage({
       <div className="grid gap-6 lg:grid-cols-12">
         {/* Left: Saved Snapshots & Cloud Starred Repos */}
         <div className="space-y-6 lg:col-span-7">
-          <Surface className="border-t-2 border-t-emerald-500 p-5">
+          <Surface className="border-t-2 border-t-teal-500 p-5">
             <div className="flex flex-wrap items-center justify-between gap-2">
               <h3 className="font-display text-sm font-bold text-slate-950 dark:text-white">
                 Saved Snapshots ({sortedSnapshots.length})
@@ -407,7 +501,7 @@ export function UserDashboardPage({
                     onClick={() => setSnapshotSort(tab.id)}
                     className={`rounded-md px-2.5 py-1 text-[11px] font-semibold transition-colors ${
                       snapshotSort === tab.id
-                        ? 'bg-emerald-600 text-white shadow-xs'
+                        ? 'bg-teal-600 text-white shadow-xs'
                         : 'text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-100'
                     }`}
                   >
@@ -469,7 +563,7 @@ export function UserDashboardPage({
                                 onSelectRepo(live.id);
                                 onNavigateView('health');
                               }}
-                              className="rounded border border-blue-500/40 bg-blue-500/10 px-2.5 py-1 text-[11px] font-semibold text-blue-600 hover:bg-blue-500/20 dark:text-blue-400"
+                              className="rounded border border-teal-500/40 bg-teal-500/10 px-2.5 py-1 text-[11px] font-semibold text-teal-700 hover:bg-teal-500/20 dark:text-teal-300"
                             >
                               Open
                             </button>
@@ -517,7 +611,7 @@ export function UserDashboardPage({
               <button
                 type="button"
                 onClick={() => onNavigateView('hub')}
-                className="text-xs font-semibold text-blue-600 hover:underline dark:text-blue-400"
+                className="text-xs font-semibold text-teal-600 hover:underline dark:text-teal-400"
               >
                 Add Repo
               </button>
@@ -567,13 +661,13 @@ export function UserDashboardPage({
                         </div>
                       </button>
                       <div className="flex items-center gap-1">
-                        {isReloading && <Loader2 className="h-3.5 w-3.5 animate-spin text-blue-500" />}
+                        {isReloading && <Loader2 className="h-3.5 w-3.5 animate-spin text-teal-500" />}
                         {!item.liveRepo && item.source !== 'zip' && !isReloading && (
                           <button
                             type="button"
                             onClick={() => onReloadStarred(item)}
                             title="Reload repo"
-                            className="rounded p-1 text-slate-400 hover:text-blue-500"
+                            className="rounded p-1 text-slate-400 hover:text-teal-500"
                           >
                             <RotateCw className="h-3.5 w-3.5" />
                           </button>
@@ -620,14 +714,17 @@ export function UserDashboardPage({
               </div>
             </div>
 
-            <form onSubmit={handleAddNote} className="mt-3 space-y-2 rounded-lg border border-slate-200 bg-slate-50/70 p-3 dark:border-slate-800 dark:bg-slate-950/60">
+            <form
+              onSubmit={handleAddNote}
+              className="mt-3 space-y-2 rounded-lg border border-slate-200 bg-slate-50/70 p-3 dark:border-slate-800 dark:bg-slate-950/60"
+            >
               <input
                 type="text"
                 maxLength={160}
                 value={noteTitle}
                 onChange={(e) => setNoteTitle(e.target.value)}
                 placeholder="Add a reminder (e.g., Fix auth error handling)..."
-                className="w-full rounded-md border border-slate-200 bg-white px-3 py-1.5 text-xs text-slate-900 focus:border-rose-500 focus:outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
+                className="w-full rounded-md border border-slate-200 bg-white px-3 py-1.5 text-xs text-slate-900 focus:border-teal-500 focus:outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
               />
               <div className="flex flex-wrap items-center gap-2">
                 <input

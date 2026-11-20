@@ -137,7 +137,7 @@ export function IngestPanel({
             onClick={handleSample}
             className="inline-flex items-center gap-1.5 rounded-md border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-700 hover:bg-slate-50 disabled:opacity-50 whitespace-nowrap dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700"
           >
-            <Zap className="h-3.5 w-3.5 text-blue-600 dark:text-blue-400" />
+            <Zap className="h-3.5 w-3.5 text-amber-600 dark:text-amber-400" />
             Sample Repo
           </button>
           {onCancel && (
@@ -163,19 +163,19 @@ export function IngestPanel({
                 value={gitUrl}
                 onChange={(e) => setGitUrl(e.target.value)}
                 placeholder="https://github.com/owner/repository"
-                className="w-full rounded-md border border-slate-200 bg-slate-50 py-2 pl-9 pr-3 font-mono text-xs text-slate-900 focus:border-blue-500 focus:outline-none dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100"
+                className="w-full rounded-md border border-slate-200 bg-slate-50 py-2 pl-9 pr-3 font-mono text-xs text-slate-900 focus:border-teal-500 focus:outline-none dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100"
               />
             </div>
             <button
               type="submit"
               disabled={loading}
-              className="rounded-md bg-blue-600 px-4 py-2 text-xs font-medium text-white hover:bg-blue-700 disabled:opacity-50 whitespace-nowrap shrink-0"
+              className="rounded-md bg-teal-600 px-4 py-2 text-xs font-medium text-white hover:bg-teal-700 disabled:opacity-50 whitespace-nowrap shrink-0"
             >
               {loading ? 'Cloning & Indexing...' : 'Clone & Analyze'}
             </button>
           </form>
         ) : (
-          <label className="flex cursor-pointer flex-col items-center justify-center gap-2 rounded-md border border-dashed border-slate-300 bg-slate-50 px-4 py-5 text-center hover:border-blue-500 dark:border-slate-700 dark:bg-slate-950">
+          <label className="flex cursor-pointer flex-col items-center justify-center gap-2 rounded-md border border-dashed border-slate-300 bg-slate-50 px-4 py-5 text-center hover:border-teal-500 dark:border-slate-700 dark:bg-slate-950">
             <Upload className="h-5 w-5 text-slate-400" />
             <span className="text-xs font-medium text-slate-700 dark:text-slate-300">
               {loading ? 'Extracting & Indexing ZIP...' : 'Drop or select a .zip archive (max 45 MB)'}
@@ -284,7 +284,7 @@ export function RepositoryHubPage({
           <button
             type="button"
             onClick={() => setShowIngest(!showIngest)}
-            className="inline-flex items-center gap-1.5 rounded-md border border-blue-200 bg-blue-50 px-3 py-1.5 text-xs font-medium text-blue-700 hover:bg-blue-100 dark:border-blue-800 dark:bg-blue-950/60 dark:text-blue-300 dark:hover:bg-blue-900/60"
+            className="inline-flex items-center gap-1.5 rounded-md border border-teal-200 bg-teal-50 px-3 py-1.5 text-xs font-medium text-teal-700 hover:bg-teal-100 dark:border-teal-800 dark:bg-teal-950/60 dark:text-teal-300 dark:hover:bg-teal-900/60"
           >
             <Plus className="h-3.5 w-3.5" />
             {showIngest ? 'Close Form' : 'Add Repo'}
@@ -314,13 +314,13 @@ export function RepositoryHubPage({
 
       {meta && !loading && (
         <>
-          <Surface className="overflow-hidden border-t-2 border-t-blue-500">
+          <Surface className="overflow-hidden border-t-2 border-t-teal-500">
             <div className="grid divide-y divide-slate-200 dark:divide-slate-800 lg:grid-cols-12 lg:divide-x lg:divide-y-0">
               <div className="flex flex-col justify-between gap-5 p-5 lg:col-span-8">
                 <div className="flex flex-wrap items-start justify-between gap-3">
                   <div className="min-w-0">
                     <div className="flex items-center gap-2 text-xs text-slate-500">
-                      <FolderGit2 className="h-3.5 w-3.5 text-blue-600 dark:text-blue-400" />
+                      <FolderGit2 className="h-3.5 w-3.5 text-teal-600 dark:text-teal-400" />
                       <span className="capitalize">{meta.source}</span>
                       <span aria-hidden="true">·</span>
                       <span className="truncate font-mono" title={meta.sourceRef}>
@@ -341,7 +341,7 @@ export function RepositoryHubPage({
                   </div>
 
                   {meta.frameworks.length > 0 && (
-                    <div className="text-right text-xs text-indigo-600 dark:text-indigo-400">
+                    <div className="text-right text-xs text-amber-700 dark:text-amber-400">
                       {meta.frameworks.slice(0, 4).join(' · ')}
                     </div>
                   )}
@@ -354,7 +354,7 @@ export function RepositoryHubPage({
                       <button
                         type="button"
                         onClick={() => setSelectedLanguage(null)}
-                        className="font-medium text-blue-600 hover:underline dark:text-blue-400"
+                        className="font-medium text-teal-600 hover:underline dark:text-teal-400"
                       >
                         Showing {selectedLanguage} · Clear
                       </button>
@@ -370,13 +370,13 @@ export function RepositoryHubPage({
                 <div className="grid grid-cols-2 gap-4 border-t border-slate-100 pt-4 dark:border-slate-800 sm:grid-cols-4">
                   <div>
                     <div className="text-[11px] text-slate-500">Total Files</div>
-                    <div className="mt-0.5 font-mono text-lg font-bold tabular-nums text-blue-600 dark:text-blue-400">
+                    <div className="mt-0.5 font-mono text-lg font-bold tabular-nums text-teal-600 dark:text-teal-400">
                       {meta.totalFiles}
                     </div>
                   </div>
                   <div>
                     <div className="text-[11px] text-slate-500">Lines of Code</div>
-                    <div className="mt-0.5 font-mono text-lg font-bold tabular-nums text-indigo-600 dark:text-indigo-400">
+                    <div className="mt-0.5 font-mono text-lg font-bold tabular-nums text-amber-600 dark:text-amber-400">
                       {meta.totalLines.toLocaleString()}
                     </div>
                   </div>
@@ -469,7 +469,7 @@ export function RepositoryHubPage({
                         <button
                           type="button"
                           onClick={() => onOpenFile(f.path)}
-                          className="truncate font-mono font-medium text-blue-600 hover:underline dark:text-blue-400"
+                          className="truncate font-mono font-medium text-teal-600 hover:underline dark:text-teal-400"
                         >
                           {f.path}
                         </button>
@@ -484,7 +484,7 @@ export function RepositoryHubPage({
                           type="button"
                           onClick={() => onAnalyzeImpact(f.path)}
                           title="See what breaks"
-                          className="rounded border border-slate-200 p-1 text-slate-500 hover:border-blue-500 hover:text-blue-600 dark:border-slate-700"
+                          className="rounded border border-slate-200 p-1 text-slate-500 hover:border-teal-500 hover:text-teal-600 dark:border-slate-700"
                         >
                           <Waypoints className="h-3.5 w-3.5" />
                         </button>
@@ -538,7 +538,7 @@ export function RepositoryHubPage({
               )}
             </Surface>
 
-            <Surface className="border-t-2 border-t-indigo-500 p-5">
+            <Surface className="border-t-2 border-t-amber-500 p-5">
               <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 pb-3 dark:border-slate-800">
                 <h3 className="text-sm font-semibold text-slate-900 dark:text-white">
                   Packages &amp; Tools
@@ -637,7 +637,7 @@ export function RepositoryHubPage({
                         <button
                           type="button"
                           onClick={() => onOpenFile(f.path)}
-                          className="font-mono text-blue-600 hover:underline dark:text-blue-400"
+                          className="font-mono text-teal-600 hover:underline dark:text-teal-400"
                         >
                           {f.path}
                         </button>
@@ -651,7 +651,7 @@ export function RepositoryHubPage({
                           <button
                             type="button"
                             onClick={() => onOpenFile(f.path)}
-                            className="inline-flex items-center gap-0.5 text-slate-600 hover:text-blue-600 dark:text-slate-400"
+                            className="inline-flex items-center gap-0.5 text-slate-600 hover:text-teal-600 dark:text-slate-400"
                           >
                             Source
                             <ArrowUpRight className="h-3 w-3" />
@@ -660,7 +660,7 @@ export function RepositoryHubPage({
                             <button
                               type="button"
                               onClick={() => onAnalyzeImpact(f.path)}
-                              className="text-blue-600 hover:underline dark:text-blue-400"
+                              className="text-teal-600 hover:underline dark:text-teal-400"
                             >
                               Impact
                             </button>
@@ -900,7 +900,7 @@ export function ExplorerPage({
                               setSelectedPath(f.path);
                               setHighlightLine(null);
                             }}
-                            className="font-mono font-medium text-blue-600 hover:underline dark:text-blue-400"
+                            className="font-mono font-medium text-teal-600 hover:underline dark:text-teal-400"
                           >
                             {f.path.slice(selectedDir.length + 1)}
                           </button>
@@ -933,7 +933,7 @@ export function ExplorerPage({
                     <button
                       type="button"
                       onClick={() => onAnalyzeImpact(file.path)}
-                      className="inline-flex items-center gap-1.5 rounded-md border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-700 hover:border-blue-500 hover:text-blue-600 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200"
+                      className="inline-flex items-center gap-1.5 rounded-md border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-700 hover:border-teal-500 hover:text-teal-600 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200"
                     >
                       <Waypoints className="h-3.5 w-3.5" />
                       Trace Impact
@@ -950,8 +950,8 @@ export function ExplorerPage({
                         onClick={() => setHighlightLine(s.line)}
                         className={`rounded border px-2 py-1 font-mono text-[11px] transition-colors ${
                           highlightLine === s.line
-                            ? 'border-blue-500 bg-blue-50 text-blue-700 dark:bg-blue-950/60 dark:text-blue-300'
-                            : 'border-slate-200 text-slate-700 hover:border-blue-500 dark:border-slate-700 dark:text-slate-300'
+                            ? 'border-teal-500 bg-teal-50 text-teal-700 dark:bg-teal-950/60 dark:text-teal-300'
+                            : 'border-slate-200 text-slate-700 hover:border-teal-500 dark:border-slate-700 dark:text-slate-300'
                         }`}
                       >
                         {s.kind} {s.name} · L{s.line} · CC {s.complexity}

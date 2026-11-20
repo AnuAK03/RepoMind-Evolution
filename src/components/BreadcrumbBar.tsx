@@ -110,7 +110,7 @@ export function BreadcrumbBar({
                         }`}
                       >
                         {isWorkspace && <Layers className="h-3 w-3 shrink-0 text-slate-400" />}
-                        {isRepo && <FolderGit2 className="h-3 w-3 shrink-0 text-blue-600 dark:text-blue-400" />}
+                        {isRepo && <FolderGit2 className="h-3 w-3 shrink-0 text-teal-600 dark:text-teal-400" />}
                         <span className="truncate">{item.label}</span>
                       </button>
                     ) : (
@@ -124,7 +124,7 @@ export function BreadcrumbBar({
                         } ${item.mono ? 'font-mono' : ''}`}
                       >
                         {isWorkspace && <Layers className="h-3 w-3 shrink-0 text-slate-400" />}
-                        {isRepo && <FolderGit2 className="h-3 w-3 shrink-0 text-blue-600 dark:text-blue-400" />}
+                        {isRepo && <FolderGit2 className="h-3 w-3 shrink-0 text-teal-600 dark:text-teal-400" />}
                         <span className="truncate">{item.label}</span>
                       </span>
                     )}
@@ -141,7 +141,7 @@ export function BreadcrumbBar({
               <button
                 type="button"
                 onClick={() => onOpenInExplorer(activeFilePath)}
-                className="hidden rounded border border-slate-200 bg-white px-2 py-0.5 text-[11px] font-medium text-slate-600 hover:border-blue-500 hover:text-blue-600 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300 sm:inline-flex whitespace-nowrap"
+                className="hidden rounded border border-slate-200 bg-white px-2 py-0.5 text-[11px] font-medium text-slate-600 hover:border-teal-500 hover:text-teal-600 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300 sm:inline-flex whitespace-nowrap"
               >
                 Open Source
               </button>

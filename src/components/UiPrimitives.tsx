@@ -21,7 +21,7 @@ export function Surface({
 }) {
   return (
     <div
-      className={`rounded-lg border border-slate-200/90 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)] transition-colors dark:border-slate-800/90 dark:bg-slate-900/95 dark:shadow-[0_1px_3px_rgba(0,0,0,0.35)] ${className}`}
+      className={`rounded-lg border border-slate-200/90 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)] transition-colors dark:border-slate-800/90 dark:bg-[#0e1418]/95 dark:shadow-[0_1px_3px_rgba(0,0,0,0.4)] ${className}`}
     >
       {children}
     </div>
@@ -210,7 +210,7 @@ export function FileTreeView({
                 <ChevronRight className="h-3.5 w-3.5 shrink-0 text-slate-400" />
               )}
               {isOpen ? (
-                <FolderOpen className="h-3.5 w-3.5 shrink-0 text-blue-600 dark:text-blue-400" />
+                <FolderOpen className="h-3.5 w-3.5 shrink-0 text-teal-600 dark:text-teal-400" />
               ) : (
                 <Folder className="h-3.5 w-3.5 shrink-0 text-slate-400" />
               )}
@@ -230,7 +230,7 @@ export function FileTreeView({
           style={{ paddingLeft: `${depth * 14 + 24}px` }}
           className={`flex w-full items-center justify-between gap-2 rounded py-1.5 pr-2 text-left text-xs transition-colors ${
             active
-              ? 'bg-blue-50 font-medium text-blue-700 dark:bg-blue-950/60 dark:text-blue-300'
+              ? 'bg-teal-50 font-medium text-teal-700 dark:bg-teal-950/60 dark:text-teal-300'
               : 'text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800'
           }`}
         >
@@ -328,7 +328,7 @@ function highlightCodeLine(line: string): React.ReactNode {
     }
     if (CODE_KEYWORDS.has(tok)) {
       return (
-        <span key={i} className="font-medium text-indigo-700 dark:text-indigo-400">
+        <span key={i} className="font-medium text-teal-700 dark:text-teal-400">
           {tok}
         </span>
       );
@@ -427,7 +427,7 @@ export function DiffViewer({ diffText }: { diffText: string }) {
           if (line.startsWith('+++') || line.startsWith('---') || line.startsWith('diff --git')) {
             cls = 'bg-slate-100 font-semibold text-slate-900 dark:bg-slate-900 dark:text-slate-100';
           } else if (line.startsWith('@@')) {
-            cls = 'bg-blue-50 text-blue-700 dark:bg-blue-950/50 dark:text-blue-300';
+            cls = 'bg-teal-50 text-teal-700 dark:bg-teal-950/50 dark:text-teal-300';
           } else if (line.startsWith('+')) {
             cls = 'bg-emerald-50/90 text-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-300';
           } else if (line.startsWith('-')) {
@@ -463,7 +463,7 @@ export function SearchInput({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className="w-full rounded-md border border-slate-200 bg-slate-50 py-1.5 pl-8 pr-3 text-xs text-slate-900 focus:border-blue-500 focus:outline-none dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100"
+        className="w-full rounded-md border border-slate-200 bg-slate-50 py-1.5 pl-8 pr-3 text-xs text-slate-900 focus:border-teal-500 focus:outline-none dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100"
       />
     </div>
   );
@@ -490,7 +490,7 @@ export function MarkdownText({
               key={idx}
               type="button"
               onClick={() => onOpenPath(pathMatch[1], pathMatch[2] ? Number(pathMatch[2]) : undefined)}
-              className="mx-0.5 rounded bg-blue-50 px-1.5 py-0.5 font-mono text-[11px] text-blue-700 hover:underline dark:bg-blue-950/60 dark:text-blue-300"
+              className="mx-0.5 rounded bg-teal-50 px-1.5 py-0.5 font-mono text-[11px] text-teal-700 hover:underline dark:bg-teal-950/60 dark:text-teal-300"
             >
               {inner}
             </button>

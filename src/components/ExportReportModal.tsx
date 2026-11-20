@@ -98,7 +98,7 @@ export function ExportReportModal({
         <div className="flex items-center justify-between border-b border-slate-200 px-5 py-3.5 dark:border-slate-800">
           <div className="min-w-0">
             <div className="flex items-center gap-2">
-              <FileType2 className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+              <FileType2 className="h-4 w-4 text-teal-600 dark:text-teal-400" />
               <h2 className="text-sm font-semibold text-slate-900 dark:text-slate-100">
                 Export Stakeholder Intelligence Summary
               </h2>
@@ -181,7 +181,7 @@ export function ExportReportModal({
                         type="checkbox"
                         checked={sections[key]}
                         onChange={() => toggleSection(key)}
-                        className="rounded border-slate-300 text-blue-600 focus:ring-blue-500"
+                        className="rounded border-slate-300 text-teal-600 focus:ring-teal-500"
                       />
                       <span>{label}</span>
                     </label>
@@ -230,7 +230,7 @@ export function ExportReportModal({
               type="button"
               onClick={handleDownloadPdf}
               disabled={!payload || loading || pdfDownloading}
-              className="inline-flex items-center gap-1.5 rounded-md bg-blue-600 px-3.5 py-1.5 text-xs font-medium text-white hover:bg-blue-700 disabled:opacity-50"
+              className="inline-flex items-center gap-1.5 rounded-md bg-teal-600 px-3.5 py-1.5 text-xs font-medium text-white hover:bg-teal-700 disabled:opacity-50"
             >
               <Download className="h-3.5 w-3.5" />
               {pdfDownloading ? 'Building PDF...' : 'Export PDF (.pdf)'}

@@ -166,16 +166,16 @@ export function GitEvolutionPage({
       />
 
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-        <Surface className="border-t-2 border-t-blue-500 p-4">
+        <Surface className="border-t-2 border-t-teal-500 p-4">
           <div className="text-xs text-slate-500">Total Commits</div>
-          <div className="mt-1 font-mono text-2xl font-bold tabular-nums text-blue-600 dark:text-blue-400">
+          <div className="mt-1 font-mono text-2xl font-bold tabular-nums text-teal-600 dark:text-teal-400">
             {git.totalCommits}
           </div>
           <div className="mt-1 font-mono text-[11px] text-slate-500">Branch {git.branch}</div>
         </Surface>
-        <Surface className="border-t-2 border-t-indigo-500 p-4">
+        <Surface className="border-t-2 border-t-amber-500 p-4">
           <div className="text-xs text-slate-500">Edited Files</div>
-          <div className="mt-1 font-mono text-2xl font-bold tabular-nums text-indigo-600 dark:text-indigo-400">
+          <div className="mt-1 font-mono text-2xl font-bold tabular-nums text-amber-600 dark:text-amber-400">
             {git.fileChurn.length}
           </div>
           <div className="mt-1 text-[11px] text-slate-500">Files changed over time</div>
@@ -210,13 +210,13 @@ export function GitEvolutionPage({
                   onClick={() => inspectCommitParentDiff(idx)}
                   className={`w-full rounded-md border p-3 text-left transition-colors ${
                     active
-                      ? 'border-blue-500 bg-blue-50/60 dark:bg-blue-950/40'
+                      ? 'border-teal-500 bg-teal-50/60 dark:bg-teal-950/40'
                       : 'border-slate-200 hover:bg-slate-50 dark:border-slate-800 dark:hover:bg-slate-800/50'
                   }`}
                 >
                   <div className="flex items-center justify-between gap-2 text-xs">
                     <span className="flex items-center gap-1.5 font-mono font-semibold text-slate-900 dark:text-slate-100">
-                      <GitCommitHorizontal className="h-3.5 w-3.5 text-blue-600 dark:text-blue-400" />
+                      <GitCommitHorizontal className="h-3.5 w-3.5 text-teal-600 dark:text-teal-400" />
                       {c.shortSha}
                     </span>
                     <span className="font-mono text-[11px] tabular-nums text-slate-500">
@@ -252,7 +252,7 @@ export function GitEvolutionPage({
                   <button
                     type="button"
                     onClick={() => onAnalyzeImpact(selectedCommit.files[0].path, selectedCommit.shortSha)}
-                    className="rounded-md bg-blue-600 px-3 py-1.5 text-xs font-medium text-white hover:bg-blue-700"
+                    className="rounded-md bg-teal-600 px-3 py-1.5 text-xs font-medium text-white hover:bg-teal-700"
                   >
                     Trace Commit Impact
                   </button>
@@ -269,7 +269,7 @@ export function GitEvolutionPage({
                       <button
                         type="button"
                         onClick={() => onOpenFile(f.path)}
-                        className="font-mono text-blue-600 hover:underline dark:text-blue-400"
+                        className="font-mono text-teal-600 hover:underline dark:text-teal-400"
                       >
                         {f.path}
                       </button>
@@ -279,7 +279,7 @@ export function GitEvolutionPage({
                         <button
                           type="button"
                           onClick={() => onAnalyzeImpact(f.path, selectedCommit.shortSha)}
-                          className="font-sans text-xs text-slate-500 hover:text-blue-600"
+                          className="font-sans text-xs text-slate-500 hover:text-teal-600"
                         >
                           Impact
                         </button>
@@ -294,10 +294,10 @@ export function GitEvolutionPage({
       </div>
 
       {git.commits.length >= 2 && (
-        <Surface className="border-t-2 border-t-blue-500 p-5">
+        <Surface className="border-t-2 border-t-teal-500 p-5">
           <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 pb-3 dark:border-slate-800">
             <h3 className="flex items-center gap-2 text-sm font-semibold text-slate-900 dark:text-white">
-              <GitCompare className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+              <GitCompare className="h-4 w-4 text-teal-600 dark:text-teal-400" />
               Code Changes (Diff)
             </h3>
             <div className="flex flex-wrap items-center gap-2">
@@ -359,7 +359,7 @@ export function GitEvolutionPage({
                       <button
                         type="button"
                         onClick={() => onOpenFile(f.path)}
-                        className="font-mono text-blue-600 hover:underline dark:text-blue-400"
+                        className="font-mono text-teal-600 hover:underline dark:text-teal-400"
                       >
                         {f.path}
                       </button>
@@ -373,7 +373,7 @@ export function GitEvolutionPage({
                       <button
                         type="button"
                         onClick={() => onAnalyzeImpact(f.path)}
-                        className="text-xs font-medium text-blue-600 hover:underline dark:text-blue-400"
+                        className="text-xs font-medium text-teal-600 hover:underline dark:text-teal-400"
                       >
                         Impact
                       </button>
@@ -576,9 +576,9 @@ export function ChangeImpactPage({
       {impact && !loading && (
         <>
           <div className="grid grid-cols-2 gap-4 lg:grid-cols-5">
-            <Surface className="border-t-2 border-t-blue-500 p-4">
+            <Surface className="border-t-2 border-t-teal-500 p-4">
               <div className="text-xs text-slate-500">Direct Links</div>
-              <div className="mt-1 font-mono text-2xl font-bold tabular-nums text-blue-600 dark:text-blue-400">
+              <div className="mt-1 font-mono text-2xl font-bold tabular-nums text-teal-600 dark:text-teal-400">
                 {impact.directCount}
               </div>
               <div className="mt-1 text-[11px] text-slate-500">Files importing this</div>
@@ -597,9 +597,9 @@ export function ChangeImpactPage({
               </div>
               <div className="mt-1 text-[11px] text-slate-500">{impact.totalAffected} files touched</div>
             </Surface>
-            <Surface className="border-t-2 border-t-indigo-500 p-4">
+            <Surface className="border-t-2 border-t-cyan-500 p-4">
               <div className="text-xs text-slate-500">Affected APIs</div>
-              <div className="mt-1 font-mono text-2xl font-bold tabular-nums text-indigo-600 dark:text-indigo-400">
+              <div className="mt-1 font-mono text-2xl font-bold tabular-nums text-cyan-600 dark:text-cyan-400">
                 {impact.affectedApis.length}
               </div>
               <div className="mt-1 text-[11px] text-slate-500">Web endpoints</div>
@@ -659,7 +659,7 @@ export function ChangeImpactPage({
                         <button
                           type="button"
                           onClick={() => onOpenFile(item.path)}
-                          className="font-mono text-xs font-semibold text-blue-600 hover:underline dark:text-blue-400"
+                          className="font-mono text-xs font-semibold text-teal-600 hover:underline dark:text-teal-400"
                         >
                           {item.path}
                         </button>
@@ -698,7 +698,7 @@ export function ChangeImpactPage({
                             <button
                               type="button"
                               onClick={() => onOpenFile(ep.file, ep.line)}
-                              className="font-mono text-[11px] text-blue-600 hover:underline dark:text-blue-400"
+                              className="font-mono text-[11px] text-teal-600 hover:underline dark:text-teal-400"
                             >
                               {ep.file}:{ep.line}
                             </button>
@@ -730,7 +730,7 @@ export function ChangeImpactPage({
                           <button
                             type="button"
                             onClick={() => onOpenFile(t.path)}
-                            className="font-mono font-medium text-blue-600 hover:underline dark:text-blue-400"
+                            className="font-mono font-medium text-teal-600 hover:underline dark:text-teal-400"
                           >
                             {t.path}
                           </button>
@@ -750,7 +750,7 @@ export function ChangeImpactPage({
                         <button
                           type="button"
                           onClick={() => setSelectedSymbol('')}
-                          className="text-blue-600 hover:underline"
+                          className="text-teal-600 hover:underline"
                         >
                           Clear filter
                         </button>
@@ -762,7 +762,7 @@ export function ChangeImpactPage({
                           key={`${s.name}:${s.line}`}
                           type="button"
                           onClick={() => onOpenFile(impact.targetFile, s.line)}
-                          className="rounded border border-slate-200 px-2 py-1 font-mono text-[11px] text-slate-700 hover:border-blue-500 dark:border-slate-700 dark:text-slate-300"
+                          className="rounded border border-slate-200 px-2 py-1 font-mono text-[11px] text-slate-700 hover:border-teal-500 dark:border-slate-700 dark:text-slate-300"
                         >
                           {s.name} · L{s.line} · CC {s.complexity}
                         </button>
